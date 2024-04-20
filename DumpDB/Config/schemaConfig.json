@@ -1,0 +1,100 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "suites": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "suites": {
+                        "type": "array",
+                        "items": [
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "elapsed_time": {
+                                        "type": "number"
+                                    },
+                                    "start_time": {
+                                        "type": "string"
+                                    },
+                                    "tests": {
+                                        "type": "array",
+                                        "items": [
+                                            {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "string"
+                                                    },
+                                                    "elapsed_time": {
+                                                        "type": "number"
+                                                    },
+                                                    "start_time": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "name",
+                                                    "status",
+                                                    "elapsed_time",
+                                                    "start_time"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "status",
+                                    "elapsed_time",
+                                    "start_time",
+                                    "tests"
+                                ]
+                            }
+                        ]
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "elapsed_time": {
+                        "type": "number"
+                    },
+                    "start_time": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "suites",
+                    "name",
+                    "status",
+                    "elapsed_time",
+                    "start_time"
+                ]
+            }
+        }
+    },
+    "required": [
+        "name",
+        "suites",
+        "status",
+        "elapsed_time",
+        "start_time"
+    ]
+}

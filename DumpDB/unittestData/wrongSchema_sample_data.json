@@ -1,0 +1,903 @@
+{
+    "name": "TestSuites",
+    "source": "/home/runner/work/automated-test-ui-dev-portal/automated-test-ui-dev-portal/TestSuites",
+    "suites": [
+        {
+            "name": "01-Login",
+            "source": "/home/runner/work/automated-test-ui-dev-portal/automated-test-ui-dev-portal/TestSuites/01-Login",
+            "suites": [
+                {
+                    "doc": "Login Pass & Fail cases",
+                    "source": "/home/runner/work/automated-test-ui-dev-portal/automated-test-ui-dev-portal/TestSuites/01-Login/Login.robot",
+                    "tests": [
+                        {
+                            "name": "Redirect To Login Page",
+                            "doc": "Owner: Nakarin",
+                            "tags": [
+                                "login",
+                                "pass"
+                            ],
+                            "lineno": 16,
+                            "setup": {
+                                "name": "Open Dev Portal Website",
+                                "status": "PASS",
+                                "elapsed_time": 11.164,
+                                "start_time": "2024-04-18T01:25:21.743000",
+                                "owner": "ui_common",
+                                "doc": "Owner: Nakarin",
+                                "body": [
+                                    {
+                                        "name": "Get Variable Value",
+                                        "args": [
+                                            "$Headless",
+                                            "${UI.Headless}"
+                                        ],
+                                        "assign": [
+                                            "${Headless}"
+                                        ],
+                                        "status": "PASS",
+                                        "elapsed_time": 0.004,
+                                        "start_time": "2024-04-18T01:25:21.743000",
+                                        "owner": "BuiltIn",
+                                        "doc": "Returns variable value or ``default`` if the variable does not exist.",
+                                        "body": [
+                                            {
+                                                "type": "MESSAGE",
+                                                "message": "${Headless} = True",
+                                                "level": "INFO",
+                                                "html": false,
+                                                "timestamp": "2024-04-18T01:25:21.746000"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "New Browser",
+                                        "args": [
+                                            "headless=${Headless}",
+                                            "browser=${UI.Browser}",
+                                            "devtools=${True}"
+                                        ],
+                                        "status": "PASS",
+                                        "elapsed_time": 0.313,
+                                        "start_time": "2024-04-18T01:25:21.747000",
+                                        "owner": "Browser",
+                                        "doc": "Create a new playwright Browser with specified options.",
+                                        "tags": [
+                                            "BrowserControl",
+                                            "Setter"
+                                        ],
+                                        "body": [
+                                            {
+                                                "type": "MESSAGE",
+                                                "message": "{\"browser\": \"chromium\", \"headless\": true, \"chromiumSandbox\": false, \"devtools\": true, \"handleSIGHUP\": true, \"handleSIGINT\": true, \"handleSIGTERM\": true, \"slowMo\": 0.0, \"timeout\": 30000.0, \"tracesDir\": \"/home/runner/work/automated-test-ui-dev-portal/automated-test-ui-dev-portal/results/EN_2024-04-18T/browser/traces/083256ae-653b-4701-a4bd-14f6333009e3\"}",
+                                                "level": "INFO",
+                                                "html": false,
+                                                "timestamp": "2024-04-18T01:25:21.748000"
+                                            },
+                                            {
+                                                "type": "MESSAGE",
+                                                "message": "Successfully created browser with options: {\"browser\":\"chromium\",\"headless\":true,\"chromiumSandbox\":false,\"devtools\":true,\"handleSIGHUP\":true,\"handleSIGINT\":true,\"handleSIGTERM\":true,\"slowMo\":0,\"timeout\":30000,\"tracesDir\":\"/home/runner/work/automated-test-ui-dev-portal/automated-test-ui-dev-portal/results/EN_2024-04-18T/browser/traces/083256ae-653b-4701-a4bd-14f6333009e3\"}",
+                                                "level": "INFO",
+                                                "html": false,
+                                                "timestamp": "2024-04-18T01:25:22.060000"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "Evaluate",
+                                        "args": [
+                                            "not(${${TestSite}.VerifySslCertificate})"
+                                        ],
+                                        "assign": [
+                                            "${ssl_certificate}"
+                                        ],
+                                        "status": "PASS",
+                                        "elapsed_time": 0.002,
+                                        "start_time": "2024-04-18T01:25:22.061000",
+                                        "owner": "BuiltIn",
+                                        "doc": "Evaluates the given expression in Python and returns the result.",
+                                        "body": [
+                                            {
+                                                "type": "MESSAGE",
+                                                "message": "${ssl_certificate} = False",
+                                                "level": "INFO",
+                                                "html": false,
+                                                "timestamp": "2024-04-18T01:25:22.063000"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "New Context",
+                                        "args": [
+                                            "ignoreHTTPSErrors=${ssl_certificate}"
+                                        ],
+                                        "status": "PASS",
+                                        "elapsed_time": 0.02,
+                                        "start_time": "2024-04-18T01:25:22.063000",
+                                        "owner": "Browser",
+                                        "doc": "Create a new BrowserContext with specified options.",
+                                        "tags": [
+                                            "BrowserControl",
+                                            "Setter"
+                                        ],
+                                        "body": [
+                                            {
+                                                "type": "MESSAGE",
+                                                "message": "{\n  \"acceptDownloads\": true,\n  \"bypassCSP\": false,\n  \"forcedColors\": \"none\",\n  \"ignoreHTTPSErrors\": false,\n  \"javaScriptEnabled\": true,\n  \"offline\": false,\n  \"reducedMotion\": \"no-preference\",\n  \"serviceWorkers\": \"allow\",\n  \"viewport\": {\n    \"width\": 1280,\n    \"height\": 720\n  }\n}",
+                                                "level": "INFO",
+                                                "html": false,
+                                                "timestamp": "2024-04-18T01:25:22.064000"
+                                            },
+                                            {
+                                                "type": "MESSAGE",
+                                                "message": "Successfully created context. ",
+                                                "level": "INFO",
+                                                "html": false,
+                                                "timestamp": "2024-04-18T01:25:22.083000"
+                                            },
+                                            {
+                                                "type": "MESSAGE",
+                                                "message": "{'acceptDownloads': True, 'bypassCSP': False, 'forcedColors': 'none', 'ignoreHTTPSErrors': False, 'javaScriptEnabled': True, 'offline': False, 'reducedMotion': 'no-preference', 'serviceWorkers': 'allow', 'viewport': {'width': 1280, 'height': 720}}",
+                                                "level": "INFO",
+                                                "html": false,
+                                                "timestamp": "2024-04-18T01:25:22.083000"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "Set Retry Assertions For",
+                                        "args": [
+                                            "${UI.AssertionTimeout}"
+                                        ],
+                                        "status": "PASS",
+                                        "elapsed_time": 0.002,
+                                        "start_time": "2024-04-18T01:25:22.084000",
+                                        "owner": "Browser",
+                                        "doc": "Sets the timeout used in retrying assertions when they fail.",
+                                        "tags": [
+                                            "Config",
+                                            "Setter"
+                                        ]
+                                    },
+                                    {
+                                        "name": "Set Browser Timeout",
+                                        "args": [
+                                            "${UI.BrowserTimeout}"
+                                        ],
+                                        "status": "PASS",
+                                        "elapsed_time": 0.007,
+                                        "start_time": "2024-04-18T01:25:22.087000",
+                                        "owner": "Browser",
+                                        "doc": "Sets the timeout used by most input and getter keywords.",
+                                        "tags": [
+                                            "Config",
+                                            "Setter"
+                                        ],
+                                        "body": [
+                                            {
+                                                "type": "MESSAGE",
+                                                "message": "Set timeout to: 20000",
+                                                "level": "INFO",
+                                                "html": false,
+                                                "timestamp": "2024-04-18T01:25:22.093000"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "New Page",
+                                        "args": [
+                                            "${${TestSite}.Url}/${Lang.lower()}"
+                                        ],
+                                        "status": "PASS",
+                                        "elapsed_time": 9.987,
+                                        "start_time": "2024-04-18T01:25:22.094000",
+                                        "owner": "Browser",
+                                        "doc": "Open a new Page.",
+                                        "tags": [
+                                            "BrowserControl",
+                                            "Setter"
+                                        ],
+                                        "body": [
+                                            {
+                                                "type": "MESSAGE",
+                                                "message": "Successfully initialized new page object and opened url: https://user1:user102@apiportal.techlabth.com/en",
+                                                "level": "INFO",
+                                                "html": false,
+                                                "timestamp": "2024-04-18T01:25:32.081000"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "Wait For Load State",
+                                        "args": [
+                                            "networkidle"
+                                        ],
+                                        "status": "PASS",
+                                        "elapsed_time": 0.703,
+                                        "start_time": "2024-04-18T01:25:32.082000",
+                                        "owner": "Browser",
+                                        "doc": "Waits that the page reaches the required load state.",
+                                        "tags": [
+                                            "PageContent",
+                                            "Wait"
+                                        ],
+                                        "body": [
+                                            {
+                                                "type": "MESSAGE",
+                                                "message": "Waiting page load to state to receive networkidle in 20000.0",
+                                                "level": "INFO",
+                                                "html": false,
+                                                "timestamp": "2024-04-18T01:25:32.082000"
+                                            },
+                                            {
+                                                "type": "MESSAGE",
+                                                "message": "Load state networkidle got in 20000",
+                                                "level": "INFO",
+                                                "html": false,
+                                                "timestamp": "2024-04-18T01:25:32.785000"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "Click",
+                                        "args": [
+                                            "${btn_accept_cookies}"
+                                        ],
+                                        "status": "PASS",
+                                        "elapsed_time": 0.121,
+                                        "start_time": "2024-04-18T01:25:32.785000",
+                                        "owner": "Browser",
+                                        "doc": "Simulates mouse click on the element found by ``selector``.",
+                                        "tags": [
+                                            "PageContent",
+                                            "Setter"
+                                        ]
+                                    }
+                                ]
+                            },
+                            "teardown": {
+                                "name": "Run Keyword If Test Failed",
+                                "args": [
+                                    "Take Screenshot",
+                                    "fullPage=${True}"
+                                ],
+                                "status": "PASS",
+                                "elapsed_time": 0.0,
+                                "start_time": "2024-04-18T01:25:34.586000",
+                                "owner": "BuiltIn",
+                                "doc": "Runs the given keyword with the given arguments, if the test failed."
+                            },
+                            "body": [
+                                {
+                                    "name": "Click",
+                                    "args": [
+                                        "${btn_redirect_login_page}"
+                                    ],
+                                    "status": "PASS",
+                                    "elapsed_time": 1.523,
+                                    "start_time": "2024-04-18T01:25:32.907000",
+                                    "owner": "Browser",
+                                    "doc": "Simulates mouse click on the element found by ``selector``.",
+                                    "tags": [
+                                        "PageContent",
+                                        "Setter"
+                                    ]
+                                },
+                                {
+                                    "name": "Verify Redirect To Login Page",
+                                    "status": "PASS",
+                                    "elapsed_time": 0.155,
+                                    "start_time": "2024-04-18T01:25:34.431000",
+                                    "owner": "Login",
+                                    "doc": "Owner: Nakarin",
+                                    "tags": [
+                                        "keyword_communicate"
+                                    ],
+                                    "body": [
+                                        {
+                                            "name": "Verify Text On Selector",
+                                            "args": [
+                                                "${lbl_login_username}",
+                                                "${msg_login_email_address_or_username}"
+                                            ],
+                                            "status": "PASS",
+                                            "elapsed_time": 0.083,
+                                            "start_time": "2024-04-18T01:25:34.431000",
+                                            "owner": "ui_common",
+                                            "doc": "Owner: Nakarin",
+                                            "tags": [
+                                                "keyword_action"
+                                            ],
+                                            "body": [
+                                                {
+                                                    "type": "IF/ELSE ROOT",
+                                                    "body": [
+                                                        {
+                                                            "type": "IF",
+                                                            "condition": "$old_text",
+                                                            "body": [
+                                                                {
+                                                                    "name": "Get Text",
+                                                                    "args": [
+                                                                        "${selector}",
+                                                                        "!=",
+                                                                        "${old_text}"
+                                                                    ],
+                                                                    "assign": [
+                                                                        "${text_actual}"
+                                                                    ],
+                                                                    "status": "NOT RUN",
+                                                                    "elapsed_time": 0.0,
+                                                                    "start_time": "2024-04-18T01:25:34.437000",
+                                                                    "owner": "Browser",
+                                                                    "doc": "Returns text attribute of the element found by ``selector``.",
+                                                                    "tags": [
+                                                                        "Assertion",
+                                                                        "Getter",
+                                                                        "PageContent"
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "status": "NOT RUN",
+                                                            "elapsed_time": 0.005,
+                                                            "start_time": "2024-04-18T01:25:34.432000"
+                                                        },
+                                                        {
+                                                            "type": "ELSE",
+                                                            "body": [
+                                                                {
+                                                                    "name": "Get Text",
+                                                                    "args": [
+                                                                        "${selector}",
+                                                                        "matches",
+                                                                        ".+"
+                                                                    ],
+                                                                    "assign": [
+                                                                        "${text_actual}"
+                                                                    ],
+                                                                    "status": "PASS",
+                                                                    "elapsed_time": 0.076,
+                                                                    "start_time": "2024-04-18T01:25:34.437000",
+                                                                    "owner": "Browser",
+                                                                    "doc": "Returns text attribute of the element found by ``selector``.",
+                                                                    "tags": [
+                                                                        "Assertion",
+                                                                        "Getter",
+                                                                        "PageContent"
+                                                                    ],
+                                                                    "body": [
+                                                                        {
+                                                                            "type": "MESSAGE",
+                                                                            "message": "Text: 'Email address or username'",
+                                                                            "level": "INFO",
+                                                                            "html": false,
+                                                                            "timestamp": "2024-04-18T01:25:34.512000"
+                                                                        },
+                                                                        {
+                                                                            "type": "MESSAGE",
+                                                                            "message": "${text_actual} = Email address or username",
+                                                                            "level": "INFO",
+                                                                            "html": false,
+                                                                            "timestamp": "2024-04-18T01:25:34.513000"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "status": "PASS",
+                                                            "elapsed_time": 0.076,
+                                                            "start_time": "2024-04-18T01:25:34.437000"
+                                                        }
+                                                    ],
+                                                    "status": "PASS",
+                                                    "elapsed_time": 0.081,
+                                                    "start_time": "2024-04-18T01:25:34.432000"
+                                                },
+                                                {
+                                                    "name": "Should Be Equal As Strings",
+                                                    "args": [
+                                                        "${text_expect}",
+                                                        "${text_actual}",
+                                                        "collapse_spaces=${True}",
+                                                        "ignore_case=${True}",
+                                                        "strip_spaces=${True}",
+                                                        "values=${False}",
+                                                        "msg=Expect:\"${text_expect}\" != Actual:\"${text_actual}\""
+                                                    ],
+                                                    "status": "PASS",
+                                                    "elapsed_time": 0.001,
+                                                    "start_time": "2024-04-18T01:25:34.513000",
+                                                    "owner": "BuiltIn",
+                                                    "doc": "Fails if objects are unequal after converting them to strings."
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "Verify Text On Selector",
+                                            "args": [
+                                                "${lbl_login_password}",
+                                                "${msg_login_password}"
+                                            ],
+                                            "status": "PASS",
+                                            "elapsed_time": 0.019,
+                                            "start_time": "2024-04-18T01:25:34.514000",
+                                            "owner": "ui_common",
+                                            "doc": "Owner: Nakarin",
+                                            "tags": [
+                                                "keyword_action"
+                                            ],
+                                            "body": [
+                                                {
+                                                    "type": "IF/ELSE ROOT",
+                                                    "body": [
+                                                        {
+                                                            "type": "IF",
+                                                            "condition": "$old_text",
+                                                            "body": [
+                                                                {
+                                                                    "name": "Get Text",
+                                                                    "args": [
+                                                                        "${selector}",
+                                                                        "!=",
+                                                                        "${old_text}"
+                                                                    ],
+                                                                    "assign": [
+                                                                        "${text_actual}"
+                                                                    ],
+                                                                    "status": "NOT RUN",
+                                                                    "elapsed_time": 0.0,
+                                                                    "start_time": "2024-04-18T01:25:34.515000",
+                                                                    "owner": "Browser",
+                                                                    "doc": "Returns text attribute of the element found by ``selector``.",
+                                                                    "tags": [
+                                                                        "Assertion",
+                                                                        "Getter",
+                                                                        "PageContent"
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "status": "NOT RUN",
+                                                            "elapsed_time": 0.0,
+                                                            "start_time": "2024-04-18T01:25:34.515000"
+                                                        },
+                                                        {
+                                                            "type": "ELSE",
+                                                            "body": [
+                                                                {
+                                                                    "name": "Get Text",
+                                                                    "args": [
+                                                                        "${selector}",
+                                                                        "matches",
+                                                                        ".+"
+                                                                    ],
+                                                                    "assign": [
+                                                                        "${text_actual}"
+                                                                    ],
+                                                                    "status": "PASS",
+                                                                    "elapsed_time": 0.016,
+                                                                    "start_time": "2024-04-18T01:25:34.515000",
+                                                                    "owner": "Browser",
+                                                                    "doc": "Returns text attribute of the element found by ``selector``.",
+                                                                    "tags": [
+                                                                        "Assertion",
+                                                                        "Getter",
+                                                                        "PageContent"
+                                                                    ],
+                                                                    "body": [
+                                                                        {
+                                                                            "type": "MESSAGE",
+                                                                            "message": "Text: 'Password'",
+                                                                            "level": "INFO",
+                                                                            "html": false,
+                                                                            "timestamp": "2024-04-18T01:25:34.531000"
+                                                                        },
+                                                                        {
+                                                                            "type": "MESSAGE",
+                                                                            "message": "${text_actual} = Password",
+                                                                            "level": "INFO",
+                                                                            "html": false,
+                                                                            "timestamp": "2024-04-18T01:25:34.531000"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "status": "PASS",
+                                                            "elapsed_time": 0.016,
+                                                            "start_time": "2024-04-18T01:25:34.515000"
+                                                        }
+                                                    ],
+                                                    "status": "PASS",
+                                                    "elapsed_time": 0.017,
+                                                    "start_time": "2024-04-18T01:25:34.515000"
+                                                },
+                                                {
+                                                    "name": "Should Be Equal As Strings",
+                                                    "args": [
+                                                        "${text_expect}",
+                                                        "${text_actual}",
+                                                        "collapse_spaces=${True}",
+                                                        "ignore_case=${True}",
+                                                        "strip_spaces=${True}",
+                                                        "values=${False}",
+                                                        "msg=Expect:\"${text_expect}\" != Actual:\"${text_actual}\""
+                                                    ],
+                                                    "status": "PASS",
+                                                    "elapsed_time": 0.0,
+                                                    "start_time": "2024-04-18T01:25:34.532000",
+                                                    "owner": "BuiltIn",
+                                                    "doc": "Fails if objects are unequal after converting them to strings."
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "Verify Text On Selector",
+                                            "args": [
+                                                "${lbl_login_header_message}",
+                                                "${msg_login_header}"
+                                            ],
+                                            "status": "PASS",
+                                            "elapsed_time": 0.017,
+                                            "start_time": "2024-04-18T01:25:34.533000",
+                                            "owner": "ui_common",
+                                            "doc": "Owner: Nakarin",
+                                            "tags": [
+                                                "keyword_action"
+                                            ],
+                                            "body": [
+                                                {
+                                                    "type": "IF/ELSE ROOT",
+                                                    "body": [
+                                                        {
+                                                            "type": "IF",
+                                                            "condition": "$old_text",
+                                                            "body": [
+                                                                {
+                                                                    "name": "Get Text",
+                                                                    "args": [
+                                                                        "${selector}",
+                                                                        "!=",
+                                                                        "${old_text}"
+                                                                    ],
+                                                                    "assign": [
+                                                                        "${text_actual}"
+                                                                    ],
+                                                                    "status": "NOT RUN",
+                                                                    "elapsed_time": 0.0,
+                                                                    "start_time": "2024-04-18T01:25:34.533000",
+                                                                    "owner": "Browser",
+                                                                    "doc": "Returns text attribute of the element found by ``selector``.",
+                                                                    "tags": [
+                                                                        "Assertion",
+                                                                        "Getter",
+                                                                        "PageContent"
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "status": "NOT RUN",
+                                                            "elapsed_time": 0.001,
+                                                            "start_time": "2024-04-18T01:25:34.533000"
+                                                        },
+                                                        {
+                                                            "type": "ELSE",
+                                                            "body": [
+                                                                {
+                                                                    "name": "Get Text",
+                                                                    "args": [
+                                                                        "${selector}",
+                                                                        "matches",
+                                                                        ".+"
+                                                                    ],
+                                                                    "assign": [
+                                                                        "${text_actual}"
+                                                                    ],
+                                                                    "status": "PASS",
+                                                                    "elapsed_time": 0.015,
+                                                                    "start_time": "2024-04-18T01:25:34.534000",
+                                                                    "owner": "Browser",
+                                                                    "doc": "Returns text attribute of the element found by ``selector``.",
+                                                                    "tags": [
+                                                                        "Assertion",
+                                                                        "Getter",
+                                                                        "PageContent"
+                                                                    ],
+                                                                    "body": [
+                                                                        {
+                                                                            "type": "MESSAGE",
+                                                                            "message": "Text: 'LOGIN'",
+                                                                            "level": "INFO",
+                                                                            "html": false,
+                                                                            "timestamp": "2024-04-18T01:25:34.548000"
+                                                                        },
+                                                                        {
+                                                                            "type": "MESSAGE",
+                                                                            "message": "${text_actual} = LOGIN",
+                                                                            "level": "INFO",
+                                                                            "html": false,
+                                                                            "timestamp": "2024-04-18T01:25:34.549000"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "status": "PASS",
+                                                            "elapsed_time": 0.015,
+                                                            "start_time": "2024-04-18T01:25:34.534000"
+                                                        }
+                                                    ],
+                                                    "status": "PASS",
+                                                    "elapsed_time": 0.016,
+                                                    "start_time": "2024-04-18T01:25:34.533000"
+                                                },
+                                                {
+                                                    "name": "Should Be Equal As Strings",
+                                                    "args": [
+                                                        "${text_expect}",
+                                                        "${text_actual}",
+                                                        "collapse_spaces=${True}",
+                                                        "ignore_case=${True}",
+                                                        "strip_spaces=${True}",
+                                                        "values=${False}",
+                                                        "msg=Expect:\"${text_expect}\" != Actual:\"${text_actual}\""
+                                                    ],
+                                                    "status": "PASS",
+                                                    "elapsed_time": 0.001,
+                                                    "start_time": "2024-04-18T01:25:34.549000",
+                                                    "owner": "BuiltIn",
+                                                    "doc": "Fails if objects are unequal after converting them to strings."
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "Verify Text On Selector",
+                                            "args": [
+                                                "${lbl_no_account_register}",
+                                                "${msg_no_account_create_new_one}"
+                                            ],
+                                            "status": "PASS",
+                                            "elapsed_time": 0.018,
+                                            "start_time": "2024-04-18T01:25:34.550000",
+                                            "owner": "ui_common",
+                                            "doc": "Owner: Nakarin",
+                                            "tags": [
+                                                "keyword_action"
+                                            ],
+                                            "body": [
+                                                {
+                                                    "type": "IF/ELSE ROOT",
+                                                    "body": [
+                                                        {
+                                                            "type": "IF",
+                                                            "condition": "$old_text",
+                                                            "body": [
+                                                                {
+                                                                    "name": "Get Text",
+                                                                    "args": [
+                                                                        "${selector}",
+                                                                        "!=",
+                                                                        "${old_text}"
+                                                                    ],
+                                                                    "assign": [
+                                                                        "${text_actual}"
+                                                                    ],
+                                                                    "status": "NOT RUN",
+                                                                    "elapsed_time": 0.0,
+                                                                    "start_time": "2024-04-18T01:25:34.551000",
+                                                                    "owner": "Browser",
+                                                                    "doc": "Returns text attribute of the element found by ``selector``.",
+                                                                    "tags": [
+                                                                        "Assertion",
+                                                                        "Getter",
+                                                                        "PageContent"
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "status": "NOT RUN",
+                                                            "elapsed_time": 0.001,
+                                                            "start_time": "2024-04-18T01:25:34.550000"
+                                                        },
+                                                        {
+                                                            "type": "ELSE",
+                                                            "body": [
+                                                                {
+                                                                    "name": "Get Text",
+                                                                    "args": [
+                                                                        "${selector}",
+                                                                        "matches",
+                                                                        ".+"
+                                                                    ],
+                                                                    "assign": [
+                                                                        "${text_actual}"
+                                                                    ],
+                                                                    "status": "PASS",
+                                                                    "elapsed_time": 0.015,
+                                                                    "start_time": "2024-04-18T01:25:34.551000",
+                                                                    "owner": "Browser",
+                                                                    "doc": "Returns text attribute of the element found by ``selector``.",
+                                                                    "tags": [
+                                                                        "Assertion",
+                                                                        "Getter",
+                                                                        "PageContent"
+                                                                    ],
+                                                                    "body": [
+                                                                        {
+                                                                            "type": "MESSAGE",
+                                                                            "message": "Text: 'No account? Create one now'",
+                                                                            "level": "INFO",
+                                                                            "html": false,
+                                                                            "timestamp": "2024-04-18T01:25:34.566000"
+                                                                        },
+                                                                        {
+                                                                            "type": "MESSAGE",
+                                                                            "message": "${text_actual} = No account? Create one now",
+                                                                            "level": "INFO",
+                                                                            "html": false,
+                                                                            "timestamp": "2024-04-18T01:25:34.566000"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "status": "PASS",
+                                                            "elapsed_time": 0.015,
+                                                            "start_time": "2024-04-18T01:25:34.551000"
+                                                        }
+                                                    ],
+                                                    "status": "PASS",
+                                                    "elapsed_time": 0.017,
+                                                    "start_time": "2024-04-18T01:25:34.550000"
+                                                },
+                                                {
+                                                    "name": "Should Be Equal As Strings",
+                                                    "args": [
+                                                        "${text_expect}",
+                                                        "${text_actual}",
+                                                        "collapse_spaces=${True}",
+                                                        "ignore_case=${True}",
+                                                        "strip_spaces=${True}",
+                                                        "values=${False}",
+                                                        "msg=Expect:\"${text_expect}\" != Actual:\"${text_actual}\""
+                                                    ],
+                                                    "status": "PASS",
+                                                    "elapsed_time": 0.0,
+                                                    "start_time": "2024-04-18T01:25:34.567000",
+                                                    "owner": "BuiltIn",
+                                                    "doc": "Fails if objects are unequal after converting them to strings."
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "Verify Text On Selector",
+                                            "args": [
+                                                "${lbl_forgot_password}",
+                                                "${msg_forgotten_password}"
+                                            ],
+                                            "status": "PASS",
+                                            "elapsed_time": 0.018,
+                                            "start_time": "2024-04-18T01:25:34.568000",
+                                            "owner": "ui_common",
+                                            "doc": "Owner: Nakarin",
+                                            "tags": [
+                                                "keyword_action"
+                                            ],
+                                            "body": [
+                                                {
+                                                    "type": "IF/ELSE ROOT",
+                                                    "body": [
+                                                        {
+                                                            "type": "IF",
+                                                            "condition": "$old_text",
+                                                            "body": [
+                                                                {
+                                                                    "name": "Get Text",
+                                                                    "args": [
+                                                                        "${selector}",
+                                                                        "!=",
+                                                                        "${old_text}"
+                                                                    ],
+                                                                    "assign": [
+                                                                        "${text_actual}"
+                                                                    ],
+                                                                    "status": "NOT RUN",
+                                                                    "elapsed_time": 0.001,
+                                                                    "start_time": "2024-04-18T01:25:34.568000",
+                                                                    "owner": "Browser",
+                                                                    "doc": "Returns text attribute of the element found by ``selector``.",
+                                                                    "tags": [
+                                                                        "Assertion",
+                                                                        "Getter",
+                                                                        "PageContent"
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "status": "NOT RUN",
+                                                            "elapsed_time": 0.001,
+                                                            "start_time": "2024-04-18T01:25:34.568000"
+                                                        },
+                                                        {
+                                                            "type": "ELSE",
+                                                            "body": [
+                                                                {
+                                                                    "name": "Get Text",
+                                                                    "args": [
+                                                                        "${selector}",
+                                                                        "matches",
+                                                                        ".+"
+                                                                    ],
+                                                                    "assign": [
+                                                                        "${text_actual}"
+                                                                    ],
+                                                                    "status": "PASS",
+                                                                    "elapsed_time": 0.015,
+                                                                    "start_time": "2024-04-18T01:25:34.569000",
+                                                                    "owner": "Browser",
+                                                                    "doc": "Returns text attribute of the element found by ``selector``.",
+                                                                    "tags": [
+                                                                        "Assertion",
+                                                                        "Getter",
+                                                                        "PageContent"
+                                                                    ],
+                                                                    "body": [
+                                                                        {
+                                                                            "type": "MESSAGE",
+                                                                            "message": "Text: 'Forgotten password?'",
+                                                                            "level": "INFO",
+                                                                            "html": false,
+                                                                            "timestamp": "2024-04-18T01:25:34.584000"
+                                                                        },
+                                                                        {
+                                                                            "type": "MESSAGE",
+                                                                            "message": "${text_actual} = Forgotten password?",
+                                                                            "level": "INFO",
+                                                                            "html": false,
+                                                                            "timestamp": "2024-04-18T01:25:34.584000"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "status": "PASS",
+                                                            "elapsed_time": 0.015,
+                                                            "start_time": "2024-04-18T01:25:34.569000"
+                                                        }
+                                                    ],
+                                                    "status": "PASS",
+                                                    "elapsed_time": 0.017,
+                                                    "start_time": "2024-04-18T01:25:34.568000"
+                                                },
+                                                {
+                                                    "name": "Should Be Equal As Strings",
+                                                    "args": [
+                                                        "${text_expect}",
+                                                        "${text_actual}",
+                                                        "collapse_spaces=${True}",
+                                                        "ignore_case=${True}",
+                                                        "strip_spaces=${True}",
+                                                        "values=${False}",
+                                                        "msg=Expect:\"${text_expect}\" != Actual:\"${text_actual}\""
+                                                    ],
+                                                    "status": "PASS",
+                                                    "elapsed_time": 0.0,
+                                                    "start_time": "2024-04-18T01:25:34.585000",
+                                                    "owner": "BuiltIn",
+                                                    "doc": "Fails if objects are unequal after converting them to strings."
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "status": "PASS",
+                            "elapsed_time": 12.846,
+                            "start_time": "2024-04-18T01:25:21.740000"
+                        }
+                    ],
+                    "status": "PASS",
+                    "elapsed_time": 43.488,
+                    "start_time": "2024-04-18T01:25:21.146000"
+                }
+            ],
+            "status": "PASS",
+            "elapsed_time": 43.495,
+            "start_time": "2024-04-18T01:25:21.145000"
+        }
+    ],
+    "status": "PASS",
+    "elapsed_time": 1227.093,
+    "start_time": "2024-04-18T01:25:21.121000"
+}

@@ -1,0 +1,11 @@
+service:
+  host: 127.0.0.1
+  username: root
+  password: Test1234
+  database: robot_tests
+localized:
+  - EN
+  - TH
+testSite:
+  - DEV
+  - SIT
