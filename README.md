@@ -1,5 +1,5 @@
 # robotframework.dashboard.data
-RobotFramework result dashboard on Grafana
+RobotFramework result dashboard on Grafana.
 
 # Requirements
 - robotframework >= 7.0
@@ -22,7 +22,7 @@ RobotFramework result dashboard on Grafana
 
     *Note:* Before running `dumpData.py` please convert `output.xml` to `output.json` file via `rebot` command.
     ```bash
-    rebot -l None -r None -o <output.xml> output.xml
+    rebot -l None -r None -o <output.json> output.xml
     ```
 # How to use Docker compose for this repo?
 You can use the docker for try to create the dashboard on Grafana by these command.
@@ -30,7 +30,7 @@ You can use the docker for try to create the dashboard on Grafana by these comma
 ```bash
 docker-compose up -d
 ```
-*Note:* `-d` for detach to not show the logs
+*Note:* `-d` for detach to hide the logs when start service.
 ### Start all service
 ```bash
 docker-compose start
