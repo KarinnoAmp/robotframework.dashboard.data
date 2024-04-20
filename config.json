@@ -20,13 +20,13 @@
     "fiscalYearStartMonth": 0,
     "gnetId": 12728,
     "graphTooltip": 0,
-    "id": 2,
+    "id": 1,
     "links": [],
     "panels": [
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "bdizc1pl8qg3ke"
+                "uid": "adjazmjrtpreod"
             },
             "fieldConfig": {
                 "defaults": {
@@ -193,7 +193,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "bdizc1pl8qg3ke"
+                "uid": "adjazmjrtpreod"
             },
             "description": "Latest testing Pass rate",
             "fieldConfig": {
@@ -240,7 +240,7 @@
                 "showThresholdMarkers": true,
                 "sizing": "auto"
             },
-            "pluginVersion": "10.4.1",
+            "pluginVersion": "10.4.2",
             "targets": [
                 {
                     "dataset": "mysql",
@@ -251,7 +251,7 @@
                     "editorMode": "code",
                     "format": "table",
                     "rawQuery": true,
-                    "rawSql": "SELECT\n    (SELECT COUNT(status) FROM robot_tests.test_cases_status\n     JOIN robot_tests.test_runs ON test_cases_status.test_run_id = test_runs.id\n     JOIN localized ON test_runs.localized_id = localized.id\n     JOIN test_site ON test_runs.test_site_id = test_site.id\n     WHERE status = 'PASS' AND country_code = '$language' AND test_site.label = '$test_site' AND $__timeFilter(started_at)\n    ) /\n    (SELECT COUNT(status) FROM robot_tests.test_cases_status\n     JOIN robot_tests.test_runs ON test_cases_status.test_run_id = test_runs.id\n     JOIN localized ON test_runs.localized_id = localized.id\n     JOIN test_site ON test_runs.test_site_id = test_site.id\n     WHERE country_code = '$language' AND test_site.label = '$test_site' AND $__timeFilter(started_at)\n    ) * 100\n",
+                    "rawSql": "SELECT (\n        SELECT COUNT(status)\n        FROM\n            test_cases_status\n            JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n            JOIN localized ON test_runs.localized_id = localized.id\n            JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE\n            status = 'PASS'\n            AND country_code = '$language'\n            AND test_site.label = '$test_site'\n            AND $__timeFilter(started_at)\n    ) / (\n        SELECT COUNT(status)\n        FROM\n            test_cases_status\n            JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n            JOIN localized ON test_runs.localized_id = localized.id\n            JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE\n            country_code = '$language'\n            AND test_site.label = '$test_site'\n            AND $__timeFilter(started_at) \n    ) * 100",
                     "refId": "A",
                     "sql": {
                         "columns": [
@@ -278,7 +278,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "bdizc1pl8qg3ke"
+                "uid": "adjazmjrtpreod"
             },
             "fieldConfig": {
                 "defaults": {
@@ -408,7 +408,7 @@
                     }
                 ]
             },
-            "pluginVersion": "10.4.1",
+            "pluginVersion": "10.4.2",
             "targets": [
                 {
                     "dataset": "robot_tests",
@@ -435,7 +435,7 @@
                     "policy": "default",
                     "query": "SELECT \"rf_suite_name\",\"rf_passed\", \"rf_failed\", \"rf_duration\" FROM \"autogen\".\"suite_result\" WHERE (\"project_name\"='$project_name' AND \"build_number\" = $build_no)",
                     "rawQuery": true,
-                    "rawSql": "SELECT name AS \"Test Cases\", elapsed AS \"Elapsed (s)\", status AS Status, CONVERT_TZ(started_at, \"UTC\", \"+07:00\") AS \"Tested at\"\nFROM test_cases_status\nJOIN test_cases ON test_cases_status.test_case_id = test_cases.id\nJOIN test_runs ON test_cases_status.test_run_id = test_runs.id\nJOIN localized ON test_runs.localized_id = localized.id\nJOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE status = \"FAIL\" AND label = '$test_site' AND country_code = '$language' AND $__timeFilter(started_at);",
+                    "rawSql": "SELECT\n    name AS \"Test Cases\",\n    elapsed AS \"Elapsed (s)\",\n    status AS Status,\n    CONVERT_TZ(started_at, \"UTC\", \"+07:00\") AS \"Tested at\"\nFROM\n    test_cases_status\n    JOIN test_cases ON test_cases_status.test_case_id = test_cases.id\n    JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n    JOIN localized ON test_runs.localized_id = localized.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    status = \"FAIL\"\n    AND label = '$test_site'\n    AND country_code = '$language'\n    AND $__timeFilter(started_at);",
                     "refId": "A",
                     "resultFormat": "table",
                     "select": [
@@ -485,7 +485,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "bdizc1pl8qg3ke"
+                "uid": "adjazmjrtpreod"
             },
             "description": "Latest automated execution time",
             "fieldConfig": {
@@ -534,7 +534,7 @@
                 "showThresholdMarkers": true,
                 "sizing": "auto"
             },
-            "pluginVersion": "10.4.1",
+            "pluginVersion": "10.4.2",
             "targets": [
                 {
                     "dataset": "robot_tests",
@@ -562,7 +562,7 @@
                     "policy": "autogen",
                     "query": "SELECT mean(\"rf_duration\") FROM \"autogen\".\"rf_results\" WHERE (\"project_name\"='$project_name')",
                     "rawQuery": true,
-                    "rawSql": "SELECT SUM(elapsed)\nFROM robot_tests.test_cases_status\nJOIN test_runs ON robot_tests.test_cases_status.test_run_id = test_runs.id\nJOIN localized ON robot_tests.test_runs.localized_id = localized.id\nJOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE country_code = '$language' AND test_site.label = '$test_site' AND $__timeFilter(started_at)",
+                    "rawSql": "SELECT SUM(elapsed)\nFROM\n    test_cases_status\n    JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n    JOIN localized ON test_runs.localized_id = localized.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    country_code = '$language'\n    AND test_site.label = '$test_site'\n    AND $__timeFilter(started_at)",
                     "refId": "A",
                     "resultFormat": "table",
                     "select": [
@@ -618,7 +618,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "bdizc1pl8qg3ke"
+                "uid": "adjazmjrtpreod"
             },
             "description": "Total automated test execution time ",
             "fieldConfig": {
@@ -663,7 +663,7 @@
                 "textMode": "auto",
                 "wideLayout": true
             },
-            "pluginVersion": "10.4.1",
+            "pluginVersion": "10.4.2",
             "targets": [
                 {
                     "dataset": "robot_tests",
@@ -674,7 +674,7 @@
                     "editorMode": "code",
                     "format": "table",
                     "rawQuery": true,
-                    "rawSql": "SELECT SUM(elapsed)\nFROM robot_tests.test_run_status\nJOIN test_runs ON test_run_status.test_run_id = test_runs.id\nJOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE label = '$test_site' ",
+                    "rawSql": "SELECT SUM(elapsed)\nFROM\n    test_run_status\n    JOIN test_runs ON test_run_status.test_run_id = test_runs.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    label = '$test_site'",
                     "refId": "A",
                     "sql": {
                         "columns": [
@@ -708,7 +708,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "bdizc1pl8qg3ke"
+                "uid": "adjazmjrtpreod"
             },
             "description": "Average total testing PASS rate",
             "fieldConfig": {
@@ -766,7 +766,7 @@
                 "sizing": "auto",
                 "text": {}
             },
-            "pluginVersion": "10.4.1",
+            "pluginVersion": "10.4.2",
             "targets": [
                 {
                     "dataset": "robot_tests",
@@ -781,7 +781,7 @@
                     "policy": "autogen",
                     "query": "SELECT mean(\"rf_pass_percentage\") FROM \"autogen\".\"rf_results\"WHERE (\"project_name\"='$project_name') AND $timeFilter",
                     "rawQuery": true,
-                    "rawSql": "SELECT\n (SELECT COUNT(status)\n  FROM robot_tests.test_cases_status\n  JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n  JOIN test_site ON test_runs.test_site_id = test_site.id\n  WHERE status = 'PASS' AND test_site.label = '$test_site')/\n (SELECT COUNT(status)\n  FROM robot_tests.test_cases_status\n  JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n  JOIN test_site ON test_runs.test_site_id = test_site.id\n  WHERE test_site.label = '$test_site') * 100\n",
+                    "rawSql": "SELECT (\n        SELECT COUNT(status)\n        FROM test_cases_status\n            JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n            JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE\n            status = 'PASS'\n            AND test_site.label = '$test_site'\n    ) / (\n        SELECT COUNT(status)\n        FROM test_cases_status\n            JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n            JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE\n            test_site.label = '$test_site'\n    ) * 100",
                     "refId": "A",
                     "resultFormat": "time_series",
                     "select": [
@@ -855,7 +855,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "bdizc1pl8qg3ke"
+                "uid": "adjazmjrtpreod"
             },
             "description": "Total Regression (times)",
             "fieldConfig": {
@@ -915,7 +915,7 @@
                 "textMode": "auto",
                 "wideLayout": true
             },
-            "pluginVersion": "10.4.1",
+            "pluginVersion": "10.4.2",
             "targets": [
                 {
                     "dataset": "robot_tests",
@@ -943,7 +943,7 @@
                     "policy": "autogen",
                     "query": "SELECT count(\"rf_total\") FROM \"autogen\".\"rf_results\" WHERE (\"project_name\"='$project_name')",
                     "rawQuery": true,
-                    "rawSql": "SELECT COUNT(test_run_status.id)\nFROM robot_tests.test_run_status\nJOIN test_runs ON test_run_status.test_run_id = test_runs.id\nJOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE label = '$test_site';\n\n-- SELECT COUNT(test_cases_status.id)\n-- FROM robot_tests.test_cases_status",
+                    "rawSql": "SELECT COUNT(test_run_status.id)\nFROM\n    test_run_status\n    JOIN test_runs ON test_run_status.test_run_id = test_runs.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    label = '$test_site';",
                     "refId": "A",
                     "resultFormat": "time_series",
                     "select": [
@@ -999,7 +999,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "bdizc1pl8qg3ke"
+                "uid": "adjazmjrtpreod"
             },
             "description": "Total test cases execution (times)",
             "fieldConfig": {
@@ -1060,7 +1060,7 @@
                 "textMode": "auto",
                 "wideLayout": true
             },
-            "pluginVersion": "10.4.1",
+            "pluginVersion": "10.4.2",
             "targets": [
                 {
                     "dataset": "mysql",
@@ -1088,7 +1088,7 @@
                     "policy": "autogen",
                     "query": "SELECT sum(\"rf_duration\") FROM \"autogen\".\"rf_results\" WHERE (\"project_name\"='$project_name')",
                     "rawQuery": true,
-                    "rawSql": "SELECT COUNT(test_cases_status.id)\nFROM robot_tests.test_cases_status\nJOIN test_runs ON test_cases_status.test_run_id = test_runs.id\nJOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE label = '$test_site';",
+                    "rawSql": "SELECT COUNT(test_cases_status.id)\nFROM\n    test_cases_status\n    JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    label = '$test_site';",
                     "refId": "A",
                     "resultFormat": "time_series",
                     "select": [
@@ -1137,7 +1137,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "bdizc1pl8qg3ke"
+                "uid": "adjazmjrtpreod"
             },
             "description": "Total average execution time",
             "fieldConfig": {
@@ -1186,7 +1186,7 @@
                 "showThresholdMarkers": true,
                 "sizing": "auto"
             },
-            "pluginVersion": "10.4.1",
+            "pluginVersion": "10.4.2",
             "targets": [
                 {
                     "dataset": "robot_tests",
@@ -1214,7 +1214,7 @@
                     "policy": "autogen",
                     "query": "SELECT mean(\"rf_duration\") FROM \"autogen\".\"rf_results\" WHERE (\"project_name\"='$project_name')",
                     "rawQuery": true,
-                    "rawSql": "SELECT AVG(elapsed)\nFROM robot_tests.test_run_status\nJOIN test_runs ON test_run_status.test_run_id = test_runs.id\nJOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE label = '$test_site'",
+                    "rawSql": "SELECT AVG(elapsed)\nFROM\n    test_run_status\n    JOIN test_runs ON test_run_status.test_run_id = test_runs.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    label = '$test_site'",
                     "refId": "A",
                     "resultFormat": "table",
                     "select": [
@@ -1270,7 +1270,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "bdizc1pl8qg3ke"
+                "uid": "adjazmjrtpreod"
             },
             "fieldConfig": {
                 "defaults": {
@@ -1460,7 +1460,7 @@
                     }
                 ]
             },
-            "pluginVersion": "10.4.1",
+            "pluginVersion": "10.4.2",
             "targets": [
                 {
                     "dataset": "robot_tests",
@@ -1482,7 +1482,7 @@
                     "policy": "autogen",
                     "query": "SELECT sum(\"rf_failed\") FROM \"autogen\".\"testcase_point\" WHERE (\"project_name\"='$project_name') AND $timeFilter GROUP BY \"rf_name\"",
                     "rawQuery": true,
-                    "rawSql": "SELECT \n name as TestSuites,\n elapsed as \"Elapsed (s)\",\n passed as PASS,\n failed as FAIL,\n status as Status,\n CONVERT_TZ(started_at, \"UTC\", \"+07:00\") as \"Tested at\"\nFROM robot_tests.suite_status\nJOIN robot_tests.suites ON suite_status.suite_id = suites.id\nJOIN robot_tests.test_runs ON suite_status.test_run_id = test_runs.id\nJOIN robot_tests.localized ON test_runs.localized_id = localized.id\nJOIN robot_tests.test_site ON test_runs.test_site_id = test_site.id\nWHERE $__timeFilter(started_at) AND country_code = '$language' AND label = '$test_site';",
+                    "rawSql": "SELECT\n    name as TestSuites,\n    elapsed as \"Elapsed (s)\",\n    passed as PASS,\n    failed as FAIL,\n    status as Status,\n    CONVERT_TZ(started_at, \"UTC\", \"+07:00\") as \"Tested at\"\nFROM suite_status\n    JOIN suites ON suite_status.suite_id = suites.id\n    JOIN test_runs ON suite_status.test_run_id = test_runs.id\n    JOIN localized ON test_runs.localized_id = localized.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    $__timeFilter(started_at)\n    AND country_code = '$language'\n    AND label = '$test_site';",
                     "refId": "A",
                     "resultFormat": "table",
                     "select": [
@@ -1563,10 +1563,6 @@
                     "text": "DEV",
                     "value": "DEV"
                 },
-                "datasource": {
-                    "type": "mysql",
-                    "uid": "bdizc1pl8qg3ke"
-                },
                 "definition": "SELECT label FROM test_site",
                 "hide": 0,
                 "includeAll": false,
@@ -1583,13 +1579,9 @@
             },
             {
                 "current": {
-                    "selected": false,
+                    "selected": true,
                     "text": "EN",
                     "value": "EN"
-                },
-                "datasource": {
-                    "type": "mysql",
-                    "uid": "bdizc1pl8qg3ke"
                 },
                 "definition": "SELECT country_code FROM localized",
                 "description": "",
@@ -1609,8 +1601,8 @@
         ]
     },
     "time": {
-        "from": "2024-04-16T17:00:00.000Z",
-        "to": "2024-04-18T16:59:59.000Z"
+        "from": "now-2d",
+        "to": "now"
     },
     "timepicker": {
         "hidden": false,
@@ -1625,6 +1617,6 @@
     "timezone": "Asia/Bangkok",
     "title": "Robot Framework Grafana Dashboard",
     "uid": "cdizcx06847pcf",
-    "version": 20,
+    "version": 2,
     "weekStart": "sunday"
 }
