@@ -1,4 +1,4 @@
-name: Python Package using Conda
+name: Running unit test
 
 on:
   workflow_dispatch: null
@@ -24,11 +24,11 @@ jobs:
         password: Test1234
     - name: Install pip dependencies
       run: |
-        cat requirements.txt
         pip install --upgrade pip
         pip install --break-system-packages -r requirements.txt
-        pip list
     - name: Create DB
       run: python3 DumpDB/createDB.py
-    - name: Run unit-test
+    - name: Run unit-test readJSON.py
       run: python3 DumpDB/readJSON.py
+    - name: Run unit-test validateJSON.py
+      run: python3 DumpDB/validateJSON.py
