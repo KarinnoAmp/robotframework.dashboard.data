@@ -40,8 +40,14 @@ class readingJSONOutput:
             "hash": self.hash_file(),
             "test_site_id": self.test_site[str(test_site).upper()],
         }
+        if str(self.buildData) != str(dict()):
+            test_run_data["build_id"] = self.buildData["id"]
+        else:
+            test_run_data["build_id"] = None
         if str(localized).upper() != "NONE":
             test_run_data["localized_id"] = self.localized[str(localized).upper()]
+        else:
+            test_run_data["localized_id"] = None
         self.test_run_id = test_run_data["id"]
         return test_run_data
 
@@ -212,6 +218,18 @@ class readingJSONOutput:
             message: str = str()
         return message
 
+    def getBuildNumber(self, build_number: str) -> dict:
+        if build_number != "None":
+            build_data: dict = {
+                "id": str(uuid.uuid4()),
+                "build_number": build_number,
+                "timestamp": self.getCurrentImportTime(),
+            }
+        else:
+            build_data = dict()
+        self.buildData = build_data
+        return build_data
+
 
 class unittest_readingJSONOutput(unittest.TestCase):
     def setUp(self) -> None:
@@ -245,6 +263,7 @@ class unittest_readingJSONOutput(unittest.TestCase):
     def test_getTestRunsData(self):
         localized = "th"
         test_site = "dev"
+        build_number = "5f207c1ce657893016976722aea9604eebdbc400"
         expected_result: dict = {
             "id": "e179a726-aec2-46ad-a6e3-e889016770a4",
             "started_at": None,
@@ -252,7 +271,9 @@ class unittest_readingJSONOutput(unittest.TestCase):
             "hash": "f9ef4451e758ffe09e009928dc9ad43659277ca1",
             "test_site_id": "a060c146-e740-415a-94c7-49b0e90de13f",
             "localized_id": "ad3052e7-e05e-4436-b002-7796e181ba54",
+            "build_id": "",
         }
+        self.readingJSONOutput.getBuildNumber(build_number)
         actual_result = self.readingJSONOutput.getTestRunsData(localized, test_site)
         self.assertEqual(actual_result.keys(), expected_result.keys())
         self.assertEqual(type(actual_result["id"]), str)
@@ -261,6 +282,43 @@ class unittest_readingJSONOutput(unittest.TestCase):
         self.assertEqual(type(actual_result["hash"]), str)
         self.assertEqual(type(actual_result["test_site_id"]), str)
         self.assertEqual(type(actual_result["localized_id"]), str)
+        self.assertEqual(type(actual_result["build_id"]), str)
+
+    def test_getTestRunsData_noneBuildNumberArgument(self):
+        localized = "th"
+        test_site = "dev"
+        build_number = "None"
+        expected_result: dict = {
+            "id": "e179a726-aec2-46ad-a6e3-e889016770a4",
+            "started_at": None,
+            "imported_at": None,
+            "hash": "f9ef4451e758ffe09e009928dc9ad43659277ca1",
+            "test_site_id": "a060c146-e740-415a-94c7-49b0e90de13f",
+            "localized_id": "ad3052e7-e05e-4436-b002-7796e181ba54",
+            "build_id": "None"
+        }
+        self.readingJSONOutput.getBuildNumber(build_number)
+        actual_result = self.readingJSONOutput.getTestRunsData(localized, test_site)
+        self.assertEqual(actual_result.keys(), expected_result.keys())
+        self.assertEqual(type(actual_result["id"]), str)
+        self.assertEqual(type(actual_result["started_at"]), datetime)
+        self.assertEqual(type(actual_result["imported_at"]), datetime)
+        self.assertEqual(type(actual_result["hash"]), str)
+        self.assertEqual(type(actual_result["test_site_id"]), str)
+        self.assertEqual(type(actual_result["localized_id"]), str)
+        self.assertEqual(actual_result["build_id"], None)
+
+    def test_getTestRunsData_noRunBuildNumberBefore(self):
+        localized = "th"
+        test_site = "dev"
+        with self.assertRaises(AttributeError):
+            self.readingJSONOutput.getTestRunsData(localized, test_site)
+
+    def test_getTestRunsData_wrongArgument(self):
+        localized = "nz"
+        test_site = "none"
+        with self.assertRaisesRegex(KeyError, "'NONE'"):
+            self.readingJSONOutput.getTestRunsData(localized, test_site)
 
     def test_getCurrentImportTime(self):
         self.assertEqual(type(self.readingJSONOutput.getCurrentImportTime()), datetime)
@@ -277,6 +335,7 @@ class unittest_readingJSONOutput(unittest.TestCase):
     def test_getTestRunStatus(self):
         localized = "th"
         test_site = "dev"
+        build_number = "5f207c1ce657893016976722aea9604eebdbc400"
         expected_result: dict = {
             "id": "8eb8acb3-bd8d-4c33-8487-71b74da594e2",
             "test_run_id": "dc6f5e33-a88c-46a6-ac48-c88a554a26dc",
@@ -285,6 +344,7 @@ class unittest_readingJSONOutput(unittest.TestCase):
             "failed": 0,
             "passed": 45,
         }
+        self.readingJSONOutput.getBuildNumber(build_number)
         self.readingJSONOutput.getTestRunsData(localized, test_site)
         actual_result: dict = self.readingJSONOutput.getTestRunStatus()
         self.assertEqual(actual_result.keys(), expected_result.keys())
@@ -294,6 +354,12 @@ class unittest_readingJSONOutput(unittest.TestCase):
         self.assertEqual(actual_result["elapsed"], expected_result["elapsed"])
         self.assertEqual(actual_result["failed"], expected_result["failed"])
         self.assertEqual(actual_result["passed"], expected_result["passed"])
+
+    def test_getTestRunStatus_noTestRunDataBefore(self):
+        with self.assertRaisesRegex(
+            AttributeError, "'readingJSONOutput' object has no attribute 'test_run_id'"
+        ):
+            self.readingJSONOutput.getTestRunStatus()
 
     def test_getTestRunStatusCount(self):
         expected_result: dict = {"passed": 45, "failed": 0}
@@ -324,6 +390,8 @@ class unittest_readingJSONOutput(unittest.TestCase):
     def test_getSuiteStatus(self):
         localized = "th"
         test_site = "dev"
+        build_number = "5f207c1ce657893016976722aea9604eebdbc400"
+        self.readingJSONOutput.getBuildNumber(build_number)
         self.readingJSONOutput.getTestRunsData(localized, test_site)
         self.readingJSONOutput.getSuitesData()
         expected_result: dict = {
@@ -347,6 +415,12 @@ class unittest_readingJSONOutput(unittest.TestCase):
             self.assertEqual(type(index["passed"]), int)
             self.assertEqual(type(index["status"]), str)
 
+    def test_getSuiteStatus_noGetSuiteDataBefore(self):
+        with self.assertRaisesRegex(
+            AttributeError, "'readingJSONOutput' object has no attribute 'test_run_id'"
+        ):
+            self.readingJSONOutput.getSuiteStatus()
+
     def test_getSuiteStatusCount(self):
         fake_suite: list = [
             {"status": "PASS"},
@@ -359,6 +433,8 @@ class unittest_readingJSONOutput(unittest.TestCase):
     def test_getTestCaseData(self):
         localized = "th"
         test_site = "dev"
+        build_number = "5f207c1ce657893016976722aea9604eebdbc400"
+        self.readingJSONOutput.getBuildNumber(build_number)
         self.readingJSONOutput.getTestRunsData(localized, test_site)
         self.readingJSONOutput.getSuitesData()
         expected_result: dict = {
@@ -380,9 +456,15 @@ class unittest_readingJSONOutput(unittest.TestCase):
             self.assertEqual(type(index["timeout"]), type(None))
             self.assertEqual(type(index["doc"]), type(None))
 
+    def test_getTestCaseData_noGetSuiteDataBefore(self):
+        with self.assertRaises(AttributeError):
+            self.readingJSONOutput.getTestCaseData()
+
     def test_getTestCasesStatus(self):
         localized = "th"
         test_site = "dev"
+        build_number = "5f207c1ce657893016976722aea9604eebdbc400"
+        self.readingJSONOutput.getBuildNumber(build_number)
         self.readingJSONOutput.getTestRunsData(localized, test_site)
         self.readingJSONOutput.getSuitesData()
         self.readingJSONOutput.getTestCaseData()
@@ -404,6 +486,19 @@ class unittest_readingJSONOutput(unittest.TestCase):
             self.assertEqual(type(index["status"]), str)
             self.assertEqual(type(index["elapsed"]), float)
             self.assertEqual(type(index["message"]), str)
+
+    def test_getBuildNumber(self):
+        build_number = "5f207c1ce657893016976722aea9604eebdbc400"
+        expected_result: dict = {"id": "", "build_number": "", "timestamp": datetime}
+        actual_result = self.readingJSONOutput.getBuildNumber(build_number)
+        self.assertEqual(actual_result.keys(), expected_result.keys())
+        self.assertEqual(type(actual_result["id"]), str)
+        self.assertEqual(actual_result["build_number"], build_number)
+        self.assertEqual(type(actual_result["timestamp"]), datetime)
+
+    def test_getBuildNumber_noArgument(self):
+        with self.assertRaises(TypeError):
+            self.readingJSONOutput.getBuildNumber()
 
 
 if __name__ == "__main__":
