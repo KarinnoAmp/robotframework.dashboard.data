@@ -31,4 +31,4 @@ jobs:
     - name: Create DB
       run: python3 DumpDB/createDB.py
     - name: Run unit-test
-      run: python3 -m unittest DumpDB/readJSON.py
+      run: python3 DumpDB/readJSON.py
