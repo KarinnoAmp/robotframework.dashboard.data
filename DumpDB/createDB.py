@@ -167,3 +167,4 @@ MY_DATABASE.createTable(
     """
 )
 """<--<--<--<--<--<--<--<-- Create table test_cases_status -->-->-->-->-->-->-->-->"""
+print("Create Database Completed!!")
