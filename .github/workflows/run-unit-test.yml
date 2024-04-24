@@ -24,6 +24,7 @@ jobs:
         password: Test1234
     - name: Install pip dependencies
       run: |
+        cat requirements.txt
         pip install --upgrade pip
         pip install --break-system-packages -r requirements.txt
     - name: Create DB
