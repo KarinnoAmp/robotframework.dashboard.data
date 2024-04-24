@@ -68,7 +68,7 @@ class databaseConnector:
 
     def insertTestRunsToDatabase(self, data: dict):
         sql = str(
-            "INSERT INTO test_runs (id, started_at, imported_at, hash, test_site_id, localized_id) VALUES (%(id)s, %(started_at)s, %(imported_at)s, %(hash)s, %(test_site_id)s, %(localized_id)s)"
+            "INSERT INTO test_runs (id, started_at, imported_at, hash, test_site_id, localized_id, build_id) VALUES (%(id)s, %(started_at)s, %(imported_at)s, %(hash)s, %(test_site_id)s, %(localized_id)s, %(build_id)s)"
         )
         self.my_cursor.execute(sql, data)
         self.my_database.commit()
@@ -110,6 +110,12 @@ class databaseConnector:
             self.my_database.commit()
         print("Dumping Test cases status success!!")
 
+    def insertBuildNumber(self, data: dict):
+        sql = "INSERT INTO build (id, build_number, timestamp) VALUES (%(id)s, %(build_number)s, %(timestamp)s)"
+        self.my_cursor.execute(sql, data)
+        self.my_database.commit()
+        print("Dumping Build number success!!")
+
     def deleteAllData(self):
         test_case_status = [
             "DELETE FROM test_cases_status",
@@ -118,7 +124,7 @@ class databaseConnector:
             "DELETE FROM suites",
             "DELETE FROM test_run_status",
             "DELETE FROM test_runs",
-            "DELETE FROM localized",
+            "DELETE FROM build"
         ]
         for sql in test_case_status:
             self.my_cursor.execute(sql)
@@ -140,5 +146,6 @@ if __name__ == "__main__":
         database=DATABASE_NAME,
     )
     db.cursor()
-    localized = db.queryTestSite()
-    print(localized)
+    db.deleteAllData()
+    # localized = db.queryTestSite()
+    # print(localized)

@@ -62,6 +62,19 @@ MY_DATABASE.insertLocalized_id(CONFIG["localized"])
 """<--<--<--<--<--<--<--<-- Create table localized -->-->-->-->-->-->-->-->"""
 
 
+"""<--<--<--<--<--<--<--<-- Create table build -->-->-->-->-->-->-->-->"""
+MY_DATABASE.createTable(
+    """
+    CREATE TABLE build (
+        id VARCHAR(255) PRIMARY KEY NOT NULL,
+        build_number TEXT,
+        timestamp DATETIME NOT NULL
+    )
+    """
+)
+"""<--<--<--<--<--<--<--<-- Create table build -->-->-->-->-->-->-->-->"""
+
+
 """<--<--<--<--<--<--<--<-- Create table test_runs -->-->-->-->-->-->-->-->"""
 MY_DATABASE.createTable(
     """
@@ -71,10 +84,13 @@ MY_DATABASE.createTable(
         started_at DATETIME,
         finished_at DATETIME,
         imported_at DATETIME NOT NULL,
-        localized_id TEXT,
-        test_site_id VARCHAR(255),
+        localized_id VARCHAR(255),
+        test_site_id VARCHAR(255) NOT NULL,
+        build_id VARCHAR(255),
         hash VARCHAR(255) NOT NULL UNIQUE,
-        FOREIGN KEY (test_site_id) REFERENCES test_site (id)
+        FOREIGN KEY (test_site_id) REFERENCES test_site (id),
+        FOREIGN KEY (build_id) REFERENCES build (id),
+        FOREIGN KEY (localized_id) REFERENCES localized (id)
     )
     """
 )

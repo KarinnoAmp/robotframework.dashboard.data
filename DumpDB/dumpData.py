@@ -20,7 +20,7 @@ def gettingArgument() -> None:
         "--language",
         help="Language of the running automated `EN`",
         type=str,
-        default="EN",
+        default=None,
     )
     parser.add_argument(
         "-f",
@@ -36,6 +36,13 @@ def gettingArgument() -> None:
         help="Environment of running automated `DEV`, `SIT`",
         default="DEV",
         required=True,
+        type=str,
+    )
+    parser.add_argument(
+        "-b",
+        "--build",
+        help="Build number of deployment e.g. `Commit number`, or other",
+        default=None,
         type=str,
     )
     # Parse the arguments
@@ -56,12 +63,13 @@ MY_DATABASE.cursor()
 
 # MY_DATABASE.deleteAllData()
 
-current_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), arguments.file)
+current_dir = os.path.join(os.getcwd(), arguments.file)
 json_data = readingJSONOutput(current_dir)
 try:
     run_language = str(arguments.language).upper()
 except KeyError:
     run_language = None
+build_number = json_data.getBuildNumber(str(arguments.build))
 test_run_data = json_data.getTestRunsData(
     run_language, str(arguments.environment).upper()
 )
@@ -70,6 +78,8 @@ suites_data = json_data.getSuitesData()
 suite_status = json_data.getSuiteStatus()
 test_cases_data = json_data.getTestCaseData()
 test_case_status = json_data.getTestCasesStatus()
+if arguments.build != None:
+    MY_DATABASE.insertBuildNumber(build_number)
 MY_DATABASE.insertTestRunsToDatabase(test_run_data)
 MY_DATABASE.insertTestRunsStatusToDatabase(test_run_status_data)
 MY_DATABASE.insertSuiteData(suites_data)
