@@ -19,16 +19,17 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: '3.11'
+        cache: pip
+    - name: Install pip dependencies
+      run: |
+        pip install --upgrade pip
+        pip install --break-system-packages -r requirements.txt
     - name: actions-setup-mysql
       uses: shogo82148/actions-setup-mysql@v1.32.1
       with:
         root-password: Test1234
         user: test
         password: Test1234
-    - name: Install pip dependencies
-      run: |
-        pip install --upgrade pip
-        pip install --break-system-packages -r requirements.txt
     - name: Create DB
       run: python3 DumpDB/createDB.py
     - name: Run unit-test readJSON.py
