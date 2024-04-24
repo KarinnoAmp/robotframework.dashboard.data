@@ -1,6 +1,7 @@
 name: Python Package using Conda
 
 on:
+  workflow_dispatch: null
   pull_request:
     branches:
       - main
