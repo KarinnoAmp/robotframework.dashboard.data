@@ -27,6 +27,7 @@ jobs:
         cat requirements.txt
         pip install --upgrade pip
         pip install --break-system-packages -r requirements.txt
+        pip list
     - name: Create DB
       run: python3 DumpDB/createDB.py
     - name: Run unit-test
