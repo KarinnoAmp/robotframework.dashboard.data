@@ -1,6 +1,14 @@
+import sys, os
+
+sys.path.append(
+    os.path.join(
+        os.path.dirname(os.path.realpath(__file__)),
+    )
+)
+
 from connectDB import databaseConnector
 from readJSON import readingJSONOutput
-import os, yaml, argparse
+import yaml, argparse
 
 
 with open(

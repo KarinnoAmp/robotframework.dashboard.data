@@ -1,9 +1,17 @@
+import sys, os
+
+sys.path.append(
+    os.path.join(
+        os.path.dirname(os.path.realpath(__file__)),
+    )
+)
+
 from datetime import datetime
 from validateJSON import validateJSONSchema
 from connectDB import databaseConnector
 import json, yaml
 import pytz
-import hashlib, uuid, os
+import hashlib, uuid
 import unittest
 
 
@@ -295,7 +303,7 @@ class unittest_readingJSONOutput(unittest.TestCase):
             "hash": "f9ef4451e758ffe09e009928dc9ad43659277ca1",
             "test_site_id": "a060c146-e740-415a-94c7-49b0e90de13f",
             "localized_id": "ad3052e7-e05e-4436-b002-7796e181ba54",
-            "build_id": "None"
+            "build_id": "None",
         }
         self.readingJSONOutput.getBuildNumber(build_number)
         actual_result = self.readingJSONOutput.getTestRunsData(localized, test_site)
