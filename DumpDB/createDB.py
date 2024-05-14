@@ -1,6 +1,13 @@
+import sys, os
+
+sys.path.append(
+    os.path.join(
+        os.path.dirname(os.path.realpath(__file__)),
+    )
+)
+
 from connectDB import databaseConnector
 import yaml
-import os
 
 
 """<--<--<--<--<--<--<--<--<--Loading config file -->-->-->-->-->-->-->-->-->"""
