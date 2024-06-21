@@ -30,13 +30,6 @@ jobs:
         root-password: Test1234
         user: test
         password: Test1234
-    - name: Set ENV Variable
-      run: |
-        export DATABASE_URL=127.0.0.1
-        export DATABASE_USERNAME=root
-        export DATABASE_PASSWORD=Test1234
-        export DATABASE_NAME=robot_tests
-        export
     - name: Create DB
       run: python3 DumpDB/createDB.py
     - name: Run unit-test readJSON.py
