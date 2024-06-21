@@ -7,10 +7,12 @@ sys.path.append(
 )
 
 from connectDB import databaseConnector
+from dotenv import load_dotenv
 import yaml
 
 
 """<--<--<--<--<--<--<--<--<--Loading config file -->-->-->-->-->-->-->-->-->"""
+load_dotenv()
 with open(
     os.path.join(
         os.path.dirname(os.path.realpath(__file__)), "Config", "DB-Config.yaml"
@@ -23,21 +25,21 @@ with open(
 
 """<--<--<--<--<--<--<--<-- Create robot_test database -->-->-->-->-->-->-->-->"""
 MY_DATABASE = databaseConnector(
-    host=CONFIG["service"]["host"],
-    user=CONFIG["service"]["username"],
-    password=CONFIG["service"]["password"],
+    host=os.getenv("DATABASE_URL"),
+    user=os.getenv("DATABASE_USERNAME"),
+    password=os.getenv("DATABASE_PASSWORD"),
 )
 MY_DATABASE.cursor()
-MY_DATABASE.createDatabase(CONFIG["service"]["database"])
+MY_DATABASE.createDatabase(os.getenv("DATABASE_NAME"))
 """<--<--<--<--<--<--<--<-- Create robot_test database -->-->-->-->-->-->-->-->"""
 
 
 """<--<--<--<--<--<--<-- Connect robot_tests database -->-->-->-->-->-->-->"""
 MY_DATABASE = databaseConnector(
-    host=CONFIG["service"]["host"],
-    user=CONFIG["service"]["username"],
-    password=CONFIG["service"]["password"],
-    database=CONFIG["service"]["database"],
+    host=os.getenv("DATABASE_URL"),
+    user=os.getenv("DATABASE_USERNAME"),
+    password=os.getenv("DATABASE_PASSWORD"),
+    database=os.getenv("DATABASE_NAME"),
 )
 MY_DATABASE.cursor()
 """<--<--<--<--<--<--<-- Connect robot_tests database -->-->-->-->-->-->-->"""

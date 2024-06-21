@@ -1,8 +1,6 @@
 import mysql.connector
 import os, yaml, uuid
-
-
-DATABASE_NAME: str = "robot_tests"
+from dotenv import load_dotenv
 
 
 class databaseConnector:
@@ -124,7 +122,7 @@ class databaseConnector:
             "DELETE FROM suites",
             "DELETE FROM test_run_status",
             "DELETE FROM test_runs",
-            "DELETE FROM build"
+            "DELETE FROM build",
         ]
         for sql in test_case_status:
             self.my_cursor.execute(sql)
@@ -132,18 +130,12 @@ class databaseConnector:
 
 
 if __name__ == "__main__":
-    with open(
-        os.path.join(
-            os.path.dirname(os.path.realpath(__file__)), "Config", "DB-Config.yaml"
-        ),
-        encoding="UTF-8",
-    ) as yaml_file:
-        config_data = yaml.full_load(yaml_file)
+    load_dotenv()
     db = databaseConnector(
-        host=config_data["service"]["host"],
-        user=config_data["service"]["username"],
-        password=config_data["service"]["password"],
-        database=DATABASE_NAME,
+        host=os.getenv("DATABASE_URL"),
+        user=os.getenv("DATABASE_USERNAME"),
+        password=os.getenv("DATABASE_PASSWORD"),
+        database=os.getenv("DATABASE_NAME")
     )
     db.cursor()
     db.deleteAllData()

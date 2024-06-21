@@ -9,19 +9,14 @@ sys.path.append(
 from datetime import datetime
 from validateJSON import validateJSONSchema
 from connectDB import databaseConnector
+from dotenv import load_dotenv
 import json, yaml
 import pytz
 import hashlib, uuid
 import unittest
 
 
-with open(
-    os.path.join(
-        os.path.dirname(os.path.realpath(__file__)), "Config", "DB-Config.yaml"
-    ),
-    encoding="UTF-8",
-) as yaml_file:
-    CONFIG = yaml.full_load(yaml_file)
+load_dotenv()
 
 
 class readingJSONOutput:
@@ -31,10 +26,10 @@ class readingJSONOutput:
             self.file_name = json_file_path
         validateJSONSchema().validateJSON(self.json_data)
         MY_DATABASE = databaseConnector(
-            host=CONFIG["service"]["host"],
-            user=CONFIG["service"]["username"],
-            password=CONFIG["service"]["password"],
-            database=CONFIG["service"]["database"],
+            host=os.getenv("DATABASE_URL"),
+            user=os.getenv("DATABASE_USERNAME"),
+            password=os.getenv("DATABASE_PASSWORD"),
+            database=os.getenv("DATABASE_NAME"),
         )
         MY_DATABASE.cursor()
         self.localized = MY_DATABASE.queryLocalized()

@@ -15,18 +15,19 @@
             }
         ]
     },
-    "description": "Robot Framework Test Results Grafana Dashboard",
+    "description": "Dev PortalTest Results Grafana Dashboard",
     "editable": true,
     "fiscalYearStartMonth": 0,
     "gnetId": 12728,
     "graphTooltip": 0,
-    "id": 1,
+    "id": 14,
     "links": [],
+    "liveNow": false,
     "panels": [
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "adjazmjrtpreod"
+                "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
             },
             "fieldConfig": {
                 "defaults": {
@@ -42,7 +43,8 @@
                     },
                     "decimals": 0,
                     "mappings": [],
-                    "unit": "short"
+                    "unit": "short",
+                    "unitScale": true
                 },
                 "overrides": [
                     {
@@ -128,39 +130,16 @@
             },
             "targets": [
                 {
-                    "alias": "Passed",
+                    "dataset": "dev_portal",
                     "datasource": {
-                        "uid": "InfluxDB"
+                        "type": "mysql",
+                        "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
                     },
                     "editorMode": "code",
                     "format": "table",
-                    "groupBy": [],
-                    "measurement": "rf_results",
-                    "orderByTime": "ASC",
-                    "policy": "autogen",
-                    "query": "SELECT \"rf_passed\" FROM \"autogen\".\"rf_results\" WHERE (\"project_path\"='$project_name' AND \"build_number\" = $build_no) ",
                     "rawQuery": true,
                     "rawSql": "SELECT\n    (SELECT COUNT(status)\n        FROM test_cases_status\n        JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n        JOIN localized ON test_runs.localized_id = localized.id\n        JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE status = 'PASS' AND country_code = '$language' AND test_site.label = '$test_site' AND $__timeFilter(started_at)\n    ) as PASS,\n    (SELECT COUNT(status)\n        FROM test_cases_status\n        JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n        JOIN localized ON test_runs.localized_id = localized.id\n        JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE status = 'FAIL' AND country_code = '$language' AND test_site.label = '$test_site' AND $__timeFilter(started_at)\n    ) as FAIL,\n    (SELECT COUNT(status)\n        FROM test_cases_status\n        JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n        JOIN localized ON test_runs.localized_id = localized.id\n        JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE status = 'SKIP' AND country_code = '$language' AND test_site.label = '$test_site' AND $__timeFilter(started_at)\n    ) as SKIP",
                     "refId": "A",
-                    "resultFormat": "time_series",
-                    "select": [
-                        [
-                            {
-                                "params": [
-                                    "rf_failed"
-                                ],
-                                "type": "field"
-                            }
-                        ],
-                        [
-                            {
-                                "params": [
-                                    "rf_passed"
-                                ],
-                                "type": "field"
-                            }
-                        ]
-                    ],
                     "sql": {
                         "columns": [
                             {
@@ -177,14 +156,7 @@
                             }
                         ],
                         "limit": 50
-                    },
-                    "tags": [
-                        {
-                            "key": "project_name",
-                            "operator": "=",
-                            "value": "RobotTests"
-                        }
-                    ]
+                    }
                 }
             ],
             "title": "Pass & Fail (%)",
@@ -193,7 +165,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "adjazmjrtpreod"
+                "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
             },
             "description": "Latest testing Pass rate",
             "fieldConfig": {
@@ -214,7 +186,8 @@
                             }
                         ]
                     },
-                    "unit": "percent"
+                    "unit": "percent",
+                    "unitScale": true
                 },
                 "overrides": []
             },
@@ -240,18 +213,19 @@
                 "showThresholdMarkers": true,
                 "sizing": "auto"
             },
-            "pluginVersion": "10.4.2",
+            "pluginVersion": "10.3.3",
             "targets": [
                 {
                     "dataset": "mysql",
                     "datasource": {
                         "type": "mysql",
-                        "uid": "bdizc1pl8qg3ke"
+                        "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
                     },
                     "editorMode": "code",
                     "format": "table",
+                    "query": "SELECT (\n        SELECT COUNT(status)\n        FROM\n            test_cases_status\n            JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n            JOIN localized ON test_runs.localized_id = localized.id\n            JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE\n            status = 'PASS'\n            AND country_code = '$language'\n            AND test_site.label = '$test_site'\n            AND $__timeFilter(started_at)\n    ) / (\n        SELECT COUNT(status)\n        FROM\n            test_cases_status\n            JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n            JOIN localized ON test_runs.localized_id = localized.id\n            JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE\n            country_code = '$language'\n            AND test_site.label = '$test_site'\n            AND $__timeFilter(started_at) \n    ) * 100",
                     "rawQuery": true,
-                    "rawSql": "SELECT (\n        SELECT COUNT(status)\n        FROM\n            test_cases_status\n            JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n            JOIN localized ON test_runs.localized_id = localized.id\n            JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE\n            status = 'PASS'\n            AND country_code = '$language'\n            AND test_site.label = '$test_site'\n            AND $__timeFilter(started_at)\n    ) / (\n        SELECT COUNT(status)\n        FROM\n            test_cases_status\n            JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n            JOIN localized ON test_runs.localized_id = localized.id\n            JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE\n            country_code = '$language'\n            AND test_site.label = '$test_site'\n            AND $__timeFilter(started_at) \n    ) * 100",
+                    "rawSql": "SELECT (\n        SELECT COUNT(status)\n        FROM\n            test_cases_status\n            JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n            JOIN localized ON test_runs.localized_id = localized.id\n            JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE\n            status = 'PASS'\n            AND country_code = '$language'\n            AND test_site.label = '$test_site'\n            AND $__timeFilter(started_at)\n    ) / (\n        SELECT COUNT(status)\n        FROM\n            test_cases_status\n            JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n            JOIN localized ON test_runs.localized_id = localized.id\n            JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE\n            country_code = '$language'\n            AND test_site.label = '$test_site'\n            AND $__timeFilter(started_at) \n    ) * 100 AS pass_rate_percentage\n",
                     "refId": "A",
                     "sql": {
                         "columns": [
@@ -278,7 +252,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "adjazmjrtpreod"
+                "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
             },
             "fieldConfig": {
                 "defaults": {
@@ -305,7 +279,8 @@
                                 "value": 80
                             }
                         ]
-                    }
+                    },
+                    "unitScale": true
                 },
                 "overrides": [
                     {
@@ -364,7 +339,7 @@
                         "properties": [
                             {
                                 "id": "custom.width",
-                                "value": 432
+                                "value": 488
                             }
                         ]
                     },
@@ -408,60 +383,23 @@
                     }
                 ]
             },
-            "pluginVersion": "10.4.2",
+            "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "robot_tests",
+                    "dataset": "dev_portal",
                     "datasource": {
-                        "uid": "InfluxDB"
+                        "type": "mysql",
+                        "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
                     },
                     "editorMode": "code",
                     "format": "table",
-                    "groupBy": [
-                        {
-                            "params": [
-                                "$__interval"
-                            ],
-                            "type": "time"
-                        },
-                        {
-                            "params": [
-                                "null"
-                            ],
-                            "type": "fill"
-                        }
-                    ],
-                    "orderByTime": "ASC",
-                    "policy": "default",
-                    "query": "SELECT \"rf_suite_name\",\"rf_passed\", \"rf_failed\", \"rf_duration\" FROM \"autogen\".\"suite_result\" WHERE (\"project_name\"='$project_name' AND \"build_number\" = $build_no)",
                     "rawQuery": true,
-                    "rawSql": "SELECT\n    name AS \"Test Cases\",\n    elapsed AS \"Elapsed (s)\",\n    status AS Status,\n    CONVERT_TZ(started_at, \"UTC\", \"+07:00\") AS \"Tested at\"\nFROM\n    test_cases_status\n    JOIN test_cases ON test_cases_status.test_case_id = test_cases.id\n    JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n    JOIN localized ON test_runs.localized_id = localized.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    status = \"FAIL\"\n    AND label = '$test_site'\n    AND country_code = '$language'\n    AND $__timeFilter(started_at);",
+                    "rawSql": "SELECT\n    name AS \"Test Cases\",\n    elapsed AS \"Elapsed (s)\",\n    status AS Status,\n    CONVERT_TZ(started_at, \"+00:00\", \"+07:00\") AS \"Tested at\"\nFROM\n    test_cases_status\n    JOIN test_cases ON test_cases_status.test_case_id = test_cases.id\n    JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n    JOIN localized ON test_runs.localized_id = localized.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    status = \"FAIL\"\n    AND label = '$test_site'\n    AND country_code = '$language'\n    AND $__timeFilter(started_at);",
                     "refId": "A",
-                    "resultFormat": "table",
-                    "select": [
-                        [
-                            {
-                                "params": [
-                                    "value"
-                                ],
-                                "type": "field"
-                            },
-                            {
-                                "params": [],
-                                "type": "mean"
-                            }
-                        ]
-                    ],
                     "sql": {
                         "columns": [
                             {
-                                "name": "COUNT",
-                                "parameters": [
-                                    {
-                                        "name": "id",
-                                        "type": "functionParameter"
-                                    }
-                                ],
+                                "parameters": [],
                                 "type": "function"
                             }
                         ],
@@ -474,9 +412,7 @@
                             }
                         ],
                         "limit": 50
-                    },
-                    "table": "suite_status",
-                    "tags": []
+                    }
                 }
             ],
             "title": "Testing Fail",
@@ -485,7 +421,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "adjazmjrtpreod"
+                "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
             },
             "description": "Latest automated execution time",
             "fieldConfig": {
@@ -507,7 +443,8 @@
                             }
                         ]
                     },
-                    "unit": "s"
+                    "unit": "s",
+                    "unitScale": true
                 },
                 "overrides": []
             },
@@ -534,61 +471,23 @@
                 "showThresholdMarkers": true,
                 "sizing": "auto"
             },
-            "pluginVersion": "10.4.2",
+            "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "robot_tests",
+                    "dataset": "dev_portal",
                     "datasource": {
-                        "uid": "InfluxDB"
+                        "type": "mysql",
+                        "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
                     },
                     "editorMode": "code",
                     "format": "table",
-                    "groupBy": [
-                        {
-                            "params": [
-                                "$__interval"
-                            ],
-                            "type": "time"
-                        },
-                        {
-                            "params": [
-                                "null"
-                            ],
-                            "type": "fill"
-                        }
-                    ],
-                    "measurement": "rf_results",
-                    "orderByTime": "ASC",
-                    "policy": "autogen",
-                    "query": "SELECT mean(\"rf_duration\") FROM \"autogen\".\"rf_results\" WHERE (\"project_name\"='$project_name')",
                     "rawQuery": true,
                     "rawSql": "SELECT SUM(elapsed)\nFROM\n    test_cases_status\n    JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n    JOIN localized ON test_runs.localized_id = localized.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    country_code = '$language'\n    AND test_site.label = '$test_site'\n    AND $__timeFilter(started_at)",
                     "refId": "A",
-                    "resultFormat": "table",
-                    "select": [
-                        [
-                            {
-                                "params": [
-                                    "rf_total"
-                                ],
-                                "type": "field"
-                            },
-                            {
-                                "params": [],
-                                "type": "count"
-                            }
-                        ]
-                    ],
                     "sql": {
                         "columns": [
                             {
-                                "name": "AVG",
-                                "parameters": [
-                                    {
-                                        "name": "elapsed",
-                                        "type": "functionParameter"
-                                    }
-                                ],
+                                "parameters": [],
                                 "type": "function"
                             }
                         ],
@@ -601,15 +500,7 @@
                             }
                         ],
                         "limit": 50
-                    },
-                    "table": "test_cases_status",
-                    "tags": [
-                        {
-                            "key": "project_name",
-                            "operator": "=",
-                            "value": "RobotTests"
-                        }
-                    ]
+                    }
                 }
             ],
             "title": "Execution Time",
@@ -618,7 +509,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "adjazmjrtpreod"
+                "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
             },
             "description": "Total automated test execution time ",
             "fieldConfig": {
@@ -636,7 +527,8 @@
                             }
                         ]
                     },
-                    "unit": "s"
+                    "unit": "s",
+                    "unitScale": true
                 },
                 "overrides": []
             },
@@ -663,18 +555,19 @@
                 "textMode": "auto",
                 "wideLayout": true
             },
-            "pluginVersion": "10.4.2",
+            "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "robot_tests",
+                    "dataset": "partner_portal",
                     "datasource": {
                         "type": "mysql",
-                        "uid": "adiaxi4gio7wgc"
+                        "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
                     },
                     "editorMode": "code",
                     "format": "table",
+                    "query": "SELECT SUM(elapsed)\nFROM\n    test_run_status\n    JOIN test_runs ON test_run_status.test_run_id = test_runs.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    label = '$test_site'",
                     "rawQuery": true,
-                    "rawSql": "SELECT SUM(elapsed)\nFROM\n    test_run_status\n    JOIN test_runs ON test_run_status.test_run_id = test_runs.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    label = '$test_site'",
+                    "rawSql": "SELECT SUM(elapsed)\nFROM\n    test_run_status\n    JOIN test_runs ON test_run_status.test_run_id = test_runs.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    label = '$test_site'\n",
                     "refId": "A",
                     "sql": {
                         "columns": [
@@ -708,7 +601,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "adjazmjrtpreod"
+                "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
             },
             "description": "Average total testing PASS rate",
             "fieldConfig": {
@@ -738,7 +631,8 @@
                             }
                         ]
                     },
-                    "unit": "percent"
+                    "unit": "percent",
+                    "unitScale": true
                 },
                 "overrides": []
             },
@@ -766,87 +660,36 @@
                 "sizing": "auto",
                 "text": {}
             },
-            "pluginVersion": "10.4.2",
+            "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "robot_tests",
+                    "dataset": "dev_portal",
                     "datasource": {
-                        "uid": "InfluxDB"
+                        "type": "mysql",
+                        "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
                     },
                     "editorMode": "code",
                     "format": "table",
-                    "groupBy": [],
-                    "measurement": "rf_results",
-                    "orderByTime": "ASC",
-                    "policy": "autogen",
-                    "query": "SELECT mean(\"rf_pass_percentage\") FROM \"autogen\".\"rf_results\"WHERE (\"project_name\"='$project_name') AND $timeFilter",
                     "rawQuery": true,
                     "rawSql": "SELECT (\n        SELECT COUNT(status)\n        FROM test_cases_status\n            JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n            JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE\n            status = 'PASS'\n            AND test_site.label = '$test_site'\n    ) / (\n        SELECT COUNT(status)\n        FROM test_cases_status\n            JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n            JOIN test_site ON test_runs.test_site_id = test_site.id\n        WHERE\n            test_site.label = '$test_site'\n    ) * 100",
                     "refId": "A",
-                    "resultFormat": "time_series",
-                    "select": [
-                        [
-                            {
-                                "params": [
-                                    "rf_pass_percentage"
-                                ],
-                                "type": "field"
-                            },
-                            {
-                                "params": [],
-                                "type": "mean"
-                            }
-                        ]
-                    ],
                     "sql": {
                         "columns": [
                             {
-                                "name": "COUNT",
-                                "parameters": [
-                                    {
-                                        "name": "status",
-                                        "type": "functionParameter"
-                                    }
-                                ],
+                                "parameters": [],
                                 "type": "function"
                             }
                         ],
-                        "groupBy": [],
-                        "limit": 50,
-                        "whereJsonTree": {
-                            "children1": [
-                                {
-                                    "id": "a89bb98a-89ab-4cde-b012-318ec7b4469f",
-                                    "properties": {
-                                        "field": "status",
-                                        "fieldSrc": "field",
-                                        "operator": "equal",
-                                        "value": [
-                                            "PASS"
-                                        ],
-                                        "valueSrc": [
-                                            "value"
-                                        ],
-                                        "valueType": [
-                                            "text"
-                                        ]
-                                    },
-                                    "type": "rule"
-                                }
-                            ],
-                            "id": "ab9899b8-0123-4456-b89a-b18ec77ea5ca",
-                            "type": "group"
-                        },
-                        "whereString": "status = 'PASS'"
-                    },
-                    "table": "suite_status",
-                    "tags": [
-                        {
-                            "key": "project_name",
-                            "operator": "=",
-                            "value": "RobotTests"
-                        }
-                    ]
+                        "groupBy": [
+                            {
+                                "property": {
+                                    "type": "string"
+                                },
+                                "type": "groupBy"
+                            }
+                        ],
+                        "limit": 50
+                    }
                 }
             ],
             "title": "Avg Pass Rate (%)",
@@ -855,7 +698,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "adjazmjrtpreod"
+                "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
             },
             "description": "Total Regression (times)",
             "fieldConfig": {
@@ -887,7 +730,8 @@
                             }
                         ]
                     },
-                    "unit": "none"
+                    "unit": "none",
+                    "unitScale": true
                 },
                 "overrides": []
             },
@@ -915,61 +759,23 @@
                 "textMode": "auto",
                 "wideLayout": true
             },
-            "pluginVersion": "10.4.2",
+            "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "robot_tests",
+                    "dataset": "dev_portal",
                     "datasource": {
-                        "uid": "InfluxDB"
+                        "type": "mysql",
+                        "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
                     },
                     "editorMode": "code",
                     "format": "table",
-                    "groupBy": [
-                        {
-                            "params": [
-                                "$__interval"
-                            ],
-                            "type": "time"
-                        },
-                        {
-                            "params": [
-                                "null"
-                            ],
-                            "type": "fill"
-                        }
-                    ],
-                    "measurement": "rf_results",
-                    "orderByTime": "ASC",
-                    "policy": "autogen",
-                    "query": "SELECT count(\"rf_total\") FROM \"autogen\".\"rf_results\" WHERE (\"project_name\"='$project_name')",
                     "rawQuery": true,
-                    "rawSql": "SELECT COUNT(test_run_status.id)\nFROM\n    test_run_status\n    JOIN test_runs ON test_run_status.test_run_id = test_runs.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    label = '$test_site';",
+                    "rawSql": "SELECT COUNT(test_run_status.id)\nFROM\n    test_run_status\n    JOIN test_runs ON test_run_status.test_run_id = test_runs.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    label = '$test_site';\n",
                     "refId": "A",
-                    "resultFormat": "time_series",
-                    "select": [
-                        [
-                            {
-                                "params": [
-                                    "rf_total"
-                                ],
-                                "type": "field"
-                            },
-                            {
-                                "params": [],
-                                "type": "count"
-                            }
-                        ]
-                    ],
                     "sql": {
                         "columns": [
                             {
-                                "name": "COUNT",
-                                "parameters": [
-                                    {
-                                        "name": "id",
-                                        "type": "functionParameter"
-                                    }
-                                ],
+                                "parameters": [],
                                 "type": "function"
                             }
                         ],
@@ -982,15 +788,7 @@
                             }
                         ],
                         "limit": 50
-                    },
-                    "table": "test_run_status",
-                    "tags": [
-                        {
-                            "key": "project_name",
-                            "operator": "=",
-                            "value": "RobotTests"
-                        }
-                    ]
+                    }
                 }
             ],
             "title": "Regression (times)",
@@ -999,7 +797,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "adjazmjrtpreod"
+                "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
             },
             "description": "Total test cases execution (times)",
             "fieldConfig": {
@@ -1032,7 +830,8 @@
                             }
                         ]
                     },
-                    "unit": "string"
+                    "unit": "string",
+                    "unitScale": true
                 },
                 "overrides": []
             },
@@ -1060,51 +859,19 @@
                 "textMode": "auto",
                 "wideLayout": true
             },
-            "pluginVersion": "10.4.2",
+            "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "mysql",
+                    "dataset": "dev_portal",
                     "datasource": {
-                        "uid": "InfluxDB"
+                        "type": "mysql",
+                        "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
                     },
                     "editorMode": "code",
                     "format": "table",
-                    "groupBy": [
-                        {
-                            "params": [
-                                "$__interval"
-                            ],
-                            "type": "time"
-                        },
-                        {
-                            "params": [
-                                "null"
-                            ],
-                            "type": "fill"
-                        }
-                    ],
-                    "measurement": "rf_results",
-                    "orderByTime": "ASC",
-                    "policy": "autogen",
-                    "query": "SELECT sum(\"rf_duration\") FROM \"autogen\".\"rf_results\" WHERE (\"project_name\"='$project_name')",
                     "rawQuery": true,
                     "rawSql": "SELECT COUNT(test_cases_status.id)\nFROM\n    test_cases_status\n    JOIN test_runs ON test_cases_status.test_run_id = test_runs.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    label = '$test_site';",
                     "refId": "A",
-                    "resultFormat": "time_series",
-                    "select": [
-                        [
-                            {
-                                "params": [
-                                    "rf_total"
-                                ],
-                                "type": "field"
-                            },
-                            {
-                                "params": [],
-                                "type": "count"
-                            }
-                        ]
-                    ],
                     "sql": {
                         "columns": [
                             {
@@ -1121,14 +888,7 @@
                             }
                         ],
                         "limit": 50
-                    },
-                    "tags": [
-                        {
-                            "key": "project_name",
-                            "operator": "=",
-                            "value": "RobotTests"
-                        }
-                    ]
+                    }
                 }
             ],
             "title": "Test Execution (times)",
@@ -1137,7 +897,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "adjazmjrtpreod"
+                "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
             },
             "description": "Total average execution time",
             "fieldConfig": {
@@ -1159,7 +919,8 @@
                             }
                         ]
                     },
-                    "unit": "s"
+                    "unit": "s",
+                    "unitScale": true
                 },
                 "overrides": []
             },
@@ -1186,12 +947,13 @@
                 "showThresholdMarkers": true,
                 "sizing": "auto"
             },
-            "pluginVersion": "10.4.2",
+            "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "robot_tests",
+                    "dataset": "partner_portal",
                     "datasource": {
-                        "uid": "InfluxDB"
+                        "type": "mysql",
+                        "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
                     },
                     "editorMode": "code",
                     "format": "table",
@@ -1212,9 +974,9 @@
                     "measurement": "rf_results",
                     "orderByTime": "ASC",
                     "policy": "autogen",
-                    "query": "SELECT mean(\"rf_duration\") FROM \"autogen\".\"rf_results\" WHERE (\"project_name\"='$project_name')",
+                    "query": "SELECT AVG(elapsed)\nFROM\n    test_run_status\n    JOIN test_runs ON test_run_status.test_run_id = test_runs.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    label = '$test_site'\n",
                     "rawQuery": true,
-                    "rawSql": "SELECT AVG(elapsed)\nFROM\n    test_run_status\n    JOIN test_runs ON test_run_status.test_run_id = test_runs.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    label = '$test_site'",
+                    "rawSql": "SELECT AVG(elapsed)\nFROM\n    test_run_status\n    JOIN test_runs ON test_run_status.test_run_id = test_runs.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    label = '$test_site'\n",
                     "refId": "A",
                     "resultFormat": "table",
                     "select": [
@@ -1270,7 +1032,7 @@
         {
             "datasource": {
                 "type": "mysql",
-                "uid": "adjazmjrtpreod"
+                "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
             },
             "fieldConfig": {
                 "defaults": {
@@ -1297,7 +1059,8 @@
                                 "value": 80
                             }
                         ]
-                    }
+                    },
+                    "unitScale": true
                 },
                 "overrides": [
                     {
@@ -1460,63 +1223,23 @@
                     }
                 ]
             },
-            "pluginVersion": "10.4.2",
+            "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "robot_tests",
+                    "dataset": "dev_portal",
                     "datasource": {
-                        "uid": "InfluxDB"
+                        "type": "mysql",
+                        "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
                     },
                     "editorMode": "code",
                     "format": "table",
-                    "groupBy": [
-                        {
-                            "params": [
-                                "rf_name"
-                            ],
-                            "type": "tag"
-                        }
-                    ],
-                    "measurement": "testcase_point",
-                    "orderByTime": "ASC",
-                    "policy": "autogen",
-                    "query": "SELECT sum(\"rf_failed\") FROM \"autogen\".\"testcase_point\" WHERE (\"project_name\"='$project_name') AND $timeFilter GROUP BY \"rf_name\"",
                     "rawQuery": true,
-                    "rawSql": "SELECT\n    name as TestSuites,\n    elapsed as \"Elapsed (s)\",\n    passed as PASS,\n    failed as FAIL,\n    status as Status,\n    CONVERT_TZ(started_at, \"UTC\", \"+07:00\") as \"Tested at\"\nFROM suite_status\n    JOIN suites ON suite_status.suite_id = suites.id\n    JOIN test_runs ON suite_status.test_run_id = test_runs.id\n    JOIN localized ON test_runs.localized_id = localized.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    $__timeFilter(started_at)\n    AND country_code = '$language'\n    AND label = '$test_site';",
+                    "rawSql": "SELECT\n    name as TestSuites,\n    elapsed as \"Elapsed (s)\",\n    passed as PASS,\n    failed as FAIL,\n    status as Status,\n    CONVERT_TZ(started_at, \"+00:00\", \"+07:00\") as \"Tested at\"\nFROM suite_status\n    JOIN suites ON suite_status.suite_id = suites.id\n    JOIN test_runs ON suite_status.test_run_id = test_runs.id\n    JOIN localized ON test_runs.localized_id = localized.id\n    JOIN test_site ON test_runs.test_site_id = test_site.id\nWHERE\n    $__timeFilter(started_at)\n    AND country_code = '$language'\n    AND label = '$test_site';",
                     "refId": "A",
-                    "resultFormat": "table",
-                    "select": [
-                        [
-                            {
-                                "params": [
-                                    "rf_failed"
-                                ],
-                                "type": "field"
-                            },
-                            {
-                                "params": [],
-                                "type": "sum"
-                            }
-                        ]
-                    ],
                     "sql": {
                         "columns": [
                             {
-                                "parameters": [
-                                    {
-                                        "name": "status",
-                                        "type": "functionParameter"
-                                    }
-                                ],
-                                "type": "function"
-                            },
-                            {
-                                "parameters": [
-                                    {
-                                        "name": "test_run_id",
-                                        "type": "functionParameter"
-                                    }
-                                ],
+                                "parameters": [],
                                 "type": "function"
                             }
                         ],
@@ -1529,15 +1252,7 @@
                             }
                         ],
                         "limit": 50
-                    },
-                    "table": "suite_status",
-                    "tags": [
-                        {
-                            "key": "project_name",
-                            "operator": "=",
-                            "value": "RobotTests"
-                        }
-                    ]
+                    }
                 }
             ],
             "title": "Testing Result",
@@ -1554,14 +1269,20 @@
     ],
     "refresh": "",
     "schemaVersion": 39,
-    "tags": [],
+    "tags": [
+        "regression-result"
+    ],
     "templating": {
         "list": [
             {
                 "current": {
-                    "selected": true,
+                    "selected": false,
                     "text": "DEV",
                     "value": "DEV"
+                },
+                "datasource": {
+                    "type": "mysql",
+                    "uid": "cc6579a1-52d4-43ee-aec8-ade967e481ea"
                 },
                 "definition": "SELECT label FROM test_site",
                 "hide": 0,
@@ -1580,8 +1301,12 @@
             {
                 "current": {
                     "selected": true,
-                    "text": "EN",
-                    "value": "EN"
+                    "text": "TH",
+                    "value": "TH"
+                },
+                "datasource": {
+                    "type": "mysql",
+                    "uid": "cc6579a1-52d4-43ee-aec8-ade967e481ea"
                 },
                 "definition": "SELECT country_code FROM localized",
                 "description": "",
@@ -1615,8 +1340,8 @@
         ]
     },
     "timezone": "Asia/Bangkok",
-    "title": "Robot Framework Grafana Dashboard",
+    "title": "Dev Portal - Regression result",
     "uid": "cdizcx06847pcf",
-    "version": 2,
+    "version": 14,
     "weekStart": "sunday"
 }
