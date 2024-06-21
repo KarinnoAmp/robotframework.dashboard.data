@@ -15,7 +15,7 @@
             }
         ]
     },
-    "description": "Dev PortalTest Results Grafana Dashboard",
+    "description": "Test Results Grafana Dashboard",
     "editable": true,
     "fiscalYearStartMonth": 0,
     "gnetId": 12728,
@@ -130,7 +130,7 @@
             },
             "targets": [
                 {
-                    "dataset": "dev_portal",
+                    "dataset": "robot_test",
                     "datasource": {
                         "type": "mysql",
                         "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
@@ -386,7 +386,7 @@
             "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "dev_portal",
+                    "dataset": "robot_test",
                     "datasource": {
                         "type": "mysql",
                         "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
@@ -474,7 +474,7 @@
             "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "dev_portal",
+                    "dataset": "robot_test",
                     "datasource": {
                         "type": "mysql",
                         "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
@@ -571,7 +571,7 @@
             "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "dev_portal",
+                    "dataset": "robot_test",
                     "datasource": {
                         "type": "mysql",
                         "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
@@ -659,7 +659,7 @@
             "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "partner_portal",
+                    "dataset": "robot_test",
                     "datasource": {
                         "type": "mysql",
                         "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
@@ -805,7 +805,7 @@
             "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "dev_portal",
+                    "dataset": "robot_test",
                     "datasource": {
                         "type": "mysql",
                         "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
@@ -889,7 +889,7 @@
             "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "partner_portal",
+                    "dataset": "robot_test",
                     "datasource": {
                         "type": "mysql",
                         "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
@@ -997,7 +997,7 @@
             "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "dev_portal",
+                    "dataset": "robot_test",
                     "datasource": {
                         "type": "mysql",
                         "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
@@ -1226,7 +1226,7 @@
             "pluginVersion": "10.3.3",
             "targets": [
                 {
-                    "dataset": "dev_portal",
+                    "dataset": "robot_test",
                     "datasource": {
                         "type": "mysql",
                         "uid": "c5b41b8b-ee82-4d62-a9b4-4cef105a07de"
@@ -1340,7 +1340,7 @@
         ]
     },
     "timezone": "browser",
-    "title": "Dev Portal - Regression result",
+    "title": "Regression result",
     "uid": "cdizcx06847pcf",
     "version": 22,
     "weekStart": "sunday"
